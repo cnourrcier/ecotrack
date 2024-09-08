@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -7,15 +7,15 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const { register } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess('');
         try {
-            const response = await axios.post('/api/auth/register', { username, email, password });
-            setSuccess(response.data.message);
-            // Clear form fields after successful registration
+            const response = await register(username, email, password);
+            setSuccess(response.message);
             setUsername('');
             setEmail('');
             setPassword('');
