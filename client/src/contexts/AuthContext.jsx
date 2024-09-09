@@ -5,8 +5,6 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [dashboardData, setDashboardData] = useState(null);
-    const [profileData, setProfileData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -16,6 +14,8 @@ export const AuthProvider = ({ children }) => {
         checkAuth();
     }, []);
 
+    // Verify token
+    // Update basic user info if valid
     const checkAuth = async () => {
         setLoading(true);
         setError(null);
@@ -33,6 +33,8 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Login user
+    // Set basic user info in state
     const login = async (email, password) => {
         setError(null);
         try {
@@ -46,6 +48,8 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Register new user
+    // Set basic user info in state
     const register = async (username, email, password) => {
         setError(null);
         try {
@@ -59,6 +63,8 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Logout current user
+    // set user state to null
     const logout = async () => {
         setError(null);
         try {
@@ -70,6 +76,8 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Fetch new access token using refresh token
+    // set user to null if refresh token is invalid
     const refreshToken = async () => {
         try {
             await axios.post('/api/refresh-token', {}, { withCredentials: true });
@@ -83,7 +91,7 @@ export const AuthProvider = ({ children }) => {
     const fetchDashboardData = useCallback(async () => {
         try {
             const response = await axios.get('/api/dashboard', { withCredentials: true });
-            setDashboardData(response.data);
+            return response.data;
         } catch (error) {
             console.error('Failed to fetch dashboard data', error);
             setError(error.response?.data?.message || 'Failed to fetch dashboard data');
@@ -93,7 +101,7 @@ export const AuthProvider = ({ children }) => {
     const fetchProfileData = useCallback(async () => {
         try {
             const response = await axios.get('/api/profile', { withCredentials: true });
-            setProfileData(response.data.user);
+            return response.data;
         } catch (error) {
             console.error('Failed to fetch profile data', error);
             setError(error.response?.data?.message || 'Failed to fetch profile data');
@@ -123,8 +131,6 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             user,
-            dashboardData,
-            profileData,
             loading,
             error,
             login,

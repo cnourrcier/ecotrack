@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+// @desc    Register new user
+// @route   POST /api/register
+// @access  Public
 exports.register = async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -12,6 +15,9 @@ exports.register = async (req, res) => {
     }
 };
 
+// @desc    Login existing user
+// @route   POST /api/login
+// @access  Public
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -35,20 +41,33 @@ exports.login = async (req, res) => {
     }
 };
 
+// @desc    Logout current user
+// @route   POST /api/logout
+// @access  Public
 exports.logout = (req, res) => {
     res.clearCookie('token');
     res.clearCookie('refreshToken');
     res.json({ message: 'Logged out successfully' });
 };
 
+// @desc    Get user environmental data 
+// @route   GET /api/dashboard
+// @access  Protected
 exports.dashboard = (req, res) => {
-    res.json({ message: 'You have access to the dashboard', user: req.user });
+    res.json({ message: 'Welcome to your dashboard', user: req.user });
 };
 
+// @desc    Get user account data (username, email, etc)
+// @route   GET /api/dashboard
+// @access  Protected
+// *** See notes on dashboard, I think I can remove this API point.
 exports.profile = async (req, res) => {
     res.json({ message: 'You have access to the profile', user: req.user });
 };
 
+// @desc    Refresh access token if valid refresh token
+// @route   GET /api/refresh-token
+// @access  Public
 exports.refreshToken = (req, res) => {
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) {
@@ -67,6 +86,9 @@ exports.refreshToken = (req, res) => {
     });
 };
 
+// @desc    Check if user is authenticated
+// @route   GET /api/check-auth
+// @access  Public
 exports.checkAuth = async (req, res) => {
     if (!req.user) {
         return res.json({ user: null });

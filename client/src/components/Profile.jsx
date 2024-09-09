@@ -1,32 +1,48 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Profile = () => {
-    const { user, profileData, error, fetchProfileData } = useAuth();
+    const { user, error: authError, fetchProfileData } = useAuth();
+    const [profileData, setProfileData] = useState(null);
+    const [loading, setLoading] = useState(null);
+    const [error, setError] = useState(null);
+
+    const loadProfile = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await fetchProfileData();
+            setProfileData(data);
+        } catch (err) {
+            console.error('Failed to load profile:', err);
+            setError('Failed to load profile data. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        let isMounted = true;
-        const loadProfile = async () => {
-            try {
-                await fetchProfileData();
-            } catch (err) {
-                if (isMounted) {
-                    console.error('Failed to load profile:', err);
-                }
-            }
-        };
+        loadProfile();
+    }, []);
 
-        if (isMounted) {
-            loadProfile();
-        }
-
-        return () => {
-            isMounted = false;
-        };
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+    if (authError) {
+        return <div className="error-message">{authError}</div>;
+    }
     if (error) {
-        return <div className="error-message">{error}</div>;
+        return (
+            <div className="error-message">
+                {error}
+                <button onClick={loadProfile}>Retry</button>
+            </div>
+        );
+    }
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!profileData) {
+        return <div>No profile data available.</div>;
     }
 
     if (!profileData) {
@@ -37,11 +53,11 @@ const Profile = () => {
         <div className="profile-container">
             <h1>User Profile</h1>
             <div className="profile-info">
-                <p><strong>Username:</strong> {profileData.username}</p>
-                <p><strong>Email:</strong> {profileData.email}</p>
+                <p><strong>Username:</strong> {profileData.user.username}</p>
+                <p><strong>Email:</strong> {profileData.user.email}</p>
                 {/* Add more profile information here */}
             </div>
-            <button onClick={fetchProfileData}>Refresh Profile</button>
+            <button onClick={loadProfile}>Refresh Profile</button>
         </div>
     );
 };

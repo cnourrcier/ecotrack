@@ -24,7 +24,6 @@ exports.verifyToken = async (req, res, next) => {
 };
 
 exports.requireAuth = (req, res, next) => {
-    console.log(req.user);
     if (!req.user) {
         return res.status(401).json({ message: 'Authentication required' });
     }
