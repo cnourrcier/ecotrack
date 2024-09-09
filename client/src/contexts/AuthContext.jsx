@@ -43,7 +43,11 @@ export const AuthProvider = ({ children }) => {
             return response.data;
         } catch (error) {
             console.error('Login failed', error);
-            setError(error.response?.data?.message || 'Login failed');
+            if (error.response?.status === 429) {
+                setError(error.response.data.message);
+            } else {
+                setError(error.response?.data?.message || 'Login failed');
+            }
             throw error;
         }
     };
@@ -108,6 +112,34 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
 
+    const resetPasswordRequest = async (email) => {
+        setError(null);
+        try {
+            const response = await axios.post('/api/reset-password-request', { email });
+            return response.data;
+        } catch (error) {
+            console.error('Password reset request failed', error);
+            if (error.response?.status === 429) {
+                setError(error.response.data.message);
+            } else {
+                setError(error.response?.data?.message || 'Password reset request failed');
+            }
+            throw error;
+        }
+    };
+
+    const resetPasswordConfirm = async (token, newPassword) => {
+        setError(null);
+        try {
+            const response = await axios.post('/api/reset-password-confirm', { token, newPassword });
+            return response.data;
+        } catch (error) {
+            console.error('Password reset confirmation failed', error);
+            setError(error.response?.data?.message || 'Password reset confirmation failed');
+            throw error;
+        }
+    };
+
     axios.interceptors.response.use(
         (response) => response,
         async (error) => {
@@ -138,7 +170,9 @@ export const AuthProvider = ({ children }) => {
             logout,
             checkAuth,
             fetchDashboardData,
-            fetchProfileData
+            fetchProfileData,
+            resetPasswordRequest,
+            resetPasswordConfirm
         }}>
             {children}
         </AuthContext.Provider>

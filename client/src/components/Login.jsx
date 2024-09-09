@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -43,6 +43,7 @@ const Login = () => {
                 />
             </div>
             <button type="submit">Login</button>
+            <p>Forgot your password? Click <Link to="/reset-password">here</Link> to reset your password</p>
         </form>
     );
 };

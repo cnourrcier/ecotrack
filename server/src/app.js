@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/auth');
-const { protectedRoute } = require('./controllers/authController');
 
 // Load environment variables from the root directory
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
@@ -16,6 +16,16 @@ const corsOptions = {
     origin: process.env.CORS_ORIGIN, // Allow only this origin
     optionsSuccessStatus: 200 // For legacy browser support
 }
+
+// Global rate limiter
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per windowMs
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+app.use(limiter); // Apply rate limiting to all requests
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

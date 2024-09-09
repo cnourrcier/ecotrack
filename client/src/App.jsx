@@ -9,6 +9,8 @@ import Register from './components/Register';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
+import PasswordResetRequest from './components/PasswordResetRequest';
+import PasswordResetConfirm from './components/PasswordResetConfirm';
 
 function App() {
 
@@ -21,6 +23,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/reset-password" element={<PasswordResetRequest />} />
+          <Route path="/reset-password/:token" element={<PasswordResetConfirm />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />}></Route>
             <Route path="/profile" element={<Profile />}></Route>

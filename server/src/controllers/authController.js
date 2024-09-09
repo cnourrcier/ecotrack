@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const sendEmail = require('../utils/sendEmail'); // Need to create this utility
 const User = require('../models/User');
 
 // @desc    Register new user
@@ -37,6 +39,9 @@ exports.login = async (req, res) => {
             message: 'Logged in successfully'
         });
     } catch (error) {
+        if (error.statusCode === 429) {
+            return res.status(429).json(error);
+        }
         res.status(500).json({ error: 'Login failed', details: error.message });
     }
 };
@@ -94,6 +99,77 @@ exports.checkAuth = async (req, res) => {
         return res.json({ user: null });
     }
     res.json({ user: req.user });
+};
+
+// @desc    Request password reset
+// @route   POST /api/reset-password-request
+// @access  Public
+exports.resetPasswordRequest = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Generate reset token
+        const resetToken = crypto.randomBytes(20).toString('hex');
+        user.resetPasswordToken = resetToken;
+        user.resetPasswordExpires = Date.now() + 3600000; // Token expires in 1 hour
+
+        await user.save();
+
+        // Send email
+        const resetUrl = process.env.NODE_ENV === 'development'
+            ? `${req.protocol}://${process.env.CLIENT_URL}/reset-password/${resetToken}`
+            : `${req.protocol}://${process.env.PROD_URL}/reset-password/${resetToken}`
+
+        const message = `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+            Please click on the following link, or paste this into your browser to complete the process:\n\n
+            ${resetUrl}\n\n
+            If you did not request this, please ignore this email and your password will remain unchanged.`;
+
+        await sendEmail({
+            email: user.email,
+            subject: 'EcoTrack Password Reset',
+            message,
+        });
+
+        res.status(200).json({ message: 'Password reset email sent' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error in password reset request' });
+    }
+};
+
+// @desc    Confirm password reset
+// @route   POST /api/reset-password-confirm
+// @access  Public
+exports.resetPasswordConfirm = async (req, res) => {
+    try {
+        const { token, newPassword } = req.body;
+        const user = await User.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: Date.now() },
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: 'Password reset token is invalid or has expired' });
+        }
+
+        // Set new password
+        user.password = newPassword;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+
+        await user.save();
+
+        res.status(200).json({ message: 'Password has been reset' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error in password reset confirmation' });
+    }
 };
 
 
