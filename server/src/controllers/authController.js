@@ -121,9 +121,16 @@ exports.resetPasswordRequest = async (req, res) => {
         await user.save();
 
         // Send email
-        const resetUrl = process.env.NODE_ENV === 'development'
-            ? `${req.protocol}://${process.env.CLIENT_URL}/reset-password/${resetToken}`
-            : `${req.protocol}://${process.env.PROD_URL}/reset-password/${resetToken}`
+        let resetUrl;
+        switch (process.env.NODE_ENV) {
+            case 'development':
+            case 'test':
+                resetUrl = `${req.protocol}://${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+                break;
+            case 'production':
+                resetUrl = `${req.protocol}://${process.env.PROD_URL}/reset-password/${resetToken}`;
+                break;
+        }
 
         const message = `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
             Please click on the following link, or paste this into your browser to complete the process:\n\n

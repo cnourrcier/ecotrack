@@ -8,7 +8,8 @@
     "server": "nodemon server/src/app.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "install-all": "npm install && npm install --prefix server && npm install --prefix client"
+    "install-all": "npm install && npm install --prefix server && npm install --prefix client",
+    "test:server": "cd server && npm test"
   },
   "keywords": [],
   "author": "Charlie Nourrcier",
