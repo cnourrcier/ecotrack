@@ -12,12 +12,11 @@ exports.verifyToken = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findById(decoded.userId).select('-password');
         if (user) {
-            req.user = user.toObject();
+            req.user = user;
         } else {
             req.user = null;
         }
     } catch (err) {
-        console.error('Token verification error:', err);
         req.user = null;
     }
     next();

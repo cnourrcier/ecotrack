@@ -69,7 +69,7 @@ npm run dev
 
 To run the backend tests:
 ```
-npm test
+npm test:server
 ```
 
 ## API Documentation
@@ -128,8 +128,11 @@ ecotrack/
 │   │   │   └── // Express routes
 │   │   ├── services/
 │   │   │   └── // Business logic
+│   │   ├── tests/
+│   │   │   └── // Test files
 │   │   ├── utils/
-│   │   │   └── // Utility functions
+│   │   │   ├── // Utility functions
+│   │   │   └── // Mock functions
 │   │   ├── websockets/
 │   │   │   └── // WebSocket handling
 │   │   └── app.js

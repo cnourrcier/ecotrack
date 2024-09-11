@@ -19,7 +19,7 @@ const createRateLimiter = (windowMs, max, errorMessage) => {
 
 const passwordResetLimiter = createRateLimiter(
     15 * 60 * 1000, // 15 minutes
-    3, // Limit each IP to 3 requests per windowMs
+    30, // Limit each IP to 3 requests per windowMs
     'Too many password reset attempts, please try again after 15 minutes'
 );
 

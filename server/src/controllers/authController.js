@@ -71,7 +71,7 @@ exports.profile = async (req, res) => {
 };
 
 // @desc    Refresh access token if valid refresh token
-// @route   GET /api/refresh-token
+// @route   POST /api/refresh-token
 // @access  Public
 exports.refreshToken = (req, res) => {
     const refreshToken = req.cookies.refreshToken;
@@ -145,7 +145,7 @@ exports.resetPasswordRequest = async (req, res) => {
 
         res.status(200).json({ message: 'Password reset email sent' });
     } catch (error) {
-        console.error(error);
+        console.log(error);
         res.status(500).json({ message: 'Error in password reset request' });
     }
 };
@@ -174,7 +174,6 @@ exports.resetPasswordConfirm = async (req, res) => {
 
         res.status(200).json({ message: 'Password has been reset' });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: 'Error in password reset confirmation' });
     }
 };

@@ -3,7 +3,6 @@ const authController = require('../controllers/authController');
 const authMiddleware = require('../middleware/authMiddleware');
 const rateLimitMiddleware = require('../middleware/rateLimitMiddleware');
 
-
 const router = express.Router();
 
 // Public routes
