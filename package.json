@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "EcoTrack Application",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "node server/src/app.js",
     "server": "nodemon server/src/app.js",
@@ -11,8 +10,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "install-all": "npm install && npm install --prefix server && npm install --prefix client",
     "test:server": "cd server && npm test",
-    "lint": "npm run lint:root && npm run lint:client && npm run lint:server",
-    "lint:root": "eslint .",
+    "lint": "npm run lint:client && npm run lint:server",
     "lint:client": "cd client && eslint .",
     "lint:server": "cd server && eslint ."
   },
@@ -21,7 +19,6 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "nodemon": "^3.1.4",
