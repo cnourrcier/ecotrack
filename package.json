@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "EcoTrack Application",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node server/src/app.js",
     "server": "nodemon server/src/app.js",
