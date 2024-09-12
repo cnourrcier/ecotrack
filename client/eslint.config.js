@@ -1,18 +1,21 @@
-module.exports = {
-    env: {
-        browser: true, // Client-side environment
-        es2021: true,  // ECMAScript 2021 features
+module.exports = [
+    {
+        files: ["**/*.js", "**/*.jsx"],
+        ignores: ["node_modules/**"],
+        languageOptions: {
+            ecmaVersion: 2021,
+            sourceType: "module",
+            globals: {
+                window: true,
+                document: true,
+            },
+        },
+        plugins: {
+            react: require("eslint-plugin-react"),
+        },
+        rules: {
+            "prettier/prettier": "error",
+            "react/prop-types": "off",
+        },
     },
-    parserOptions: {
-        sourceType: 'module', // Ensures ESLint recognizes ES modules
-        ecmaVersion: 2021,
-    },
-    extends: [
-        'eslint:recommended', // ESLint's recommended rules
-        'plugin:react/recommended',
-    ],
-    rules: {
-        // Client-specific rules
-        'no-console': 'warn', // Warn on console logs
-    },
-};
+];
