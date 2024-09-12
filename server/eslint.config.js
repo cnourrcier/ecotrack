@@ -10,6 +10,9 @@ module.exports = [
                 __dirname: true,
             },
         },
+        plugins: {
+            prettier: require("eslint-plugin-prettier"),
+        },
         rules: {
             "no-console": "off",
             "prettier/prettier": "error",
