@@ -10,7 +10,10 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "install-all": "npm install && npm install --prefix server && npm install --prefix client",
     "test:server": "cd server && npm test",
-    "lint": "eslint . --ext .js,.jsx"
+    "lint": "npm run lint:root && npm run lint:client && npm run lint:server",
+    "lint:root": "eslint .",
+    "lint:client": "cd client && eslint .",
+    "lint:server": "cd server && eslint ."
   },
   "keywords": [],
   "author": "Charlie Nourrcier",
