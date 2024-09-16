@@ -3,12 +3,7 @@ const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const app = require('../app');
 const User = require('../models/User');
-const {
-    passwordResetLimiter,
-    loginLimiter,
-} = require('../middleware/rateLimitMiddleware');
 
-jest.mock('../middleware/rateLimitMiddleware');
 jest.mock('../utils/sendEmail');
 
 let mongoServer;
@@ -42,16 +37,6 @@ describe('Rate Limit Middleware', () => {
             password: 'password123',
         });
 
-        // Mock the rate limiter to allow 5 requests and then block
-        loginLimiter.mockImplementation((req, res, next) => {
-            if (loginLimiter.mock.calls.length > 5) {
-                return res.status(429).json({
-                    message: 'Too many login attempts, please try again later.',
-                });
-            }
-            next();
-        });
-
         // Make 6 login attempts
         for (let i = 0; i < 6; i++) {
             const res = await request(app)
@@ -64,7 +49,7 @@ describe('Rate Limit Middleware', () => {
                 expect(res.statusCode).toBe(429);
                 expect(res.body).toHaveProperty(
                     'message',
-                    'Too many login attempts, please try again later.',
+                    'Too many login attempts, please try again after 15 minutes.',
                 );
             }
         }
@@ -76,16 +61,6 @@ describe('Rate Limit Middleware', () => {
             username: 'ratelimituser',
             email: 'ratelimit@example.com',
             password: 'password123',
-        });
-
-        // Mock the rate limiter to allow 5 requests and then block
-        passwordResetLimiter.mockImplementation((req, res, next) => {
-            if (passwordResetLimiter.mock.calls.length > 5) {
-                return res.status(429).json({
-                    message: 'Too many requests, please try again later.',
-                });
-            }
-            next();
         });
 
         // Make 6 requests
@@ -100,7 +75,7 @@ describe('Rate Limit Middleware', () => {
                 expect(res.statusCode).toBe(429);
                 expect(res.body).toHaveProperty(
                     'message',
-                    'Too many requests, please try again later.',
+                    'Too many password reset attempts, please try again after 15 minutes.',
                 );
             }
         }

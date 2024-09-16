@@ -9,9 +9,9 @@ const createRateLimiter = (windowMs, max, errorMessage) => {
         legacyHeaders: false,
         handler: (req, res, next, options) => {
             res.status(429).json({
-                error: 'Too Many Requests. Please try again later.',
+                error: errorMessage,
                 message: options.message,
-                retryAfter: Math.ceil(options.windowMs / 1000),
+                retryAfter: Math.ceil(windowMs / 1000),
             });
         },
     });
@@ -19,17 +19,18 @@ const createRateLimiter = (windowMs, max, errorMessage) => {
 
 const passwordResetLimiter = createRateLimiter(
     15 * 60 * 1000, // 15 minutes
-    30, // Limit each IP to 3 requests per windowMs
-    'Too many password reset attempts, please try again after 15 minutes',
+    5, // Limit each IP to 3 requests per windowMs
+    'Too many password reset attempts, please try again after 15 minutes.',
 );
 
 const loginLimiter = createRateLimiter(
     15 * 60 * 1000, // 15 minutes
     5, // Limit each IP to 5 login requests per windowMs
-    'Too many login attempts, please try again after 15 minutes',
+    'Too many login attempts, please try again after 15 minutes.',
 );
 
 module.exports = {
+    createRateLimiter,
     passwordResetLimiter,
     loginLimiter,
 };
