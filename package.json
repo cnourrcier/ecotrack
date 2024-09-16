@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "install:all": "npm install && npm install --prefix server && npm install --prefix client",
     "test:server": "cd server && npm test",
-    "lint:all": "npm run lint:client && npm run lint:server",
+    "lint:all": "npm run lint:client -- --fix && npm run lint:server -- --fix",
     "lint:client": "cd client && eslint .",
     "lint:server": "cd server && eslint .",
     "prettier:client": "prettier --write 'client/**/*.{js,jsx,json,css}'",

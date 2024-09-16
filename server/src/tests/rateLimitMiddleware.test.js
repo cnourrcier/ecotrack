@@ -41,12 +41,9 @@ describe('Rate Limit Middleware', () => {
         // Mock the rate limiter to allow 5 requests and then block
         loginLimiter.mockImplementation((req, res, next) => {
             if (loginLimiter.mock.calls.length > 5) {
-                return res
-                    .status(429)
-                    .json({
-                        message:
-                            'Too many login attempts, please try again later.',
-                    });
+                return res.status(429).json({
+                    message: 'Too many login attempts, please try again later.',
+                });
             }
             next();
         });
@@ -80,11 +77,9 @@ describe('Rate Limit Middleware', () => {
         // Mock the rate limiter to allow 5 requests and then block
         passwordResetLimiter.mockImplementation((req, res, next) => {
             if (passwordResetLimiter.mock.calls.length > 5) {
-                return res
-                    .status(429)
-                    .json({
-                        message: 'Too many requests, please try again later.',
-                    });
+                return res.status(429).json({
+                    message: 'Too many requests, please try again later.',
+                });
             }
             next();
         });

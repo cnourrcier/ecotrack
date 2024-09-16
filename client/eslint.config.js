@@ -1,3 +1,5 @@
+const babelParser = require('@babel/eslint-parser');
+
 module.exports = [
     {
         files: ['**/*.js', '**/*.jsx'],
@@ -5,7 +7,7 @@ module.exports = [
         languageOptions: {
             ecmaVersion: 2021,
             sourceType: 'module',
-            parser: require.resolve('@babel/eslint-parser'), // Babel parser for JSX
+            parser: babelParser,
             globals: {
                 window: true,
                 document: true,

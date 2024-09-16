@@ -172,11 +172,9 @@ exports.resetPasswordConfirm = async (req, res) => {
         });
 
         if (!user) {
-            return res
-                .status(400)
-                .json({
-                    message: 'Password reset token is invalid or has expired',
-                });
+            return res.status(400).json({
+                message: 'Password reset token is invalid or has expired',
+            });
         }
 
         // Set new password
