@@ -11,10 +11,14 @@ jest.mock('jsonwebtoken');
 let mongoServer;
 
 beforeAll(async () => {
-    mongoServer = await MongoMemoryServer.create();
+    mongoServer = await MongoMemoryServer.create({
+        instance: {
+            dbName: 'authMiddlewareTest',
+        },
+    });
     const uri = mongoServer.getUri();
     await mongoose.connect(uri);
-});
+}, 30000);
 
 afterAll(async () => {
     await mongoose.disconnect();

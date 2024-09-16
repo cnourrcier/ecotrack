@@ -13,10 +13,14 @@ let mongoServer;
 
 // Set up MongoDB Memory Server before all tests
 beforeAll(async () => {
-    mongoServer = await MongoMemoryServer.create();
+    mongoServer = await MongoMemoryServer.create({
+        instance: {
+            dbName: 'authControllerTest',
+        },
+    });
     const uri = mongoServer.getUri();
     await mongoose.connect(uri);
-});
+}, 30000); // timeout 30 seconds
 
 // Clean up after all tests
 afterAll(async () => {
