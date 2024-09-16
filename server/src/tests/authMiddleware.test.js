@@ -127,7 +127,7 @@ describe('Auth Middleware', () => {
             expect(res.statusCode).toBe(200);
             expect(res.body).toHaveProperty(
                 'message',
-                'Welcome to your dashboard',
+                'Dashboard data retrieved successfully',
             );
         });
 
