@@ -40,6 +40,11 @@ describe('Rate Limit Middleware', () => {
                 .post('/api/login')
                 .send({ email: 'login@example.com', password: 'password123' });
 
+            // Log the error if response status is 500
+            if (res.statusCode === 500) {
+                console.log(res.body);  // Log the response body in case of server errors
+            }
+
             if (i < 5) {
                 expect(res.statusCode).toBe(200);
             } else {
