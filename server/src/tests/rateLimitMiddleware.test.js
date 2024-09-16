@@ -1,10 +1,12 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const app = require('../app');
 const User = require('../models/User');
 
 jest.mock('../utils/sendEmail');
+jest.mock('jsonwebtoken');
 
 let mongoServer;
 
