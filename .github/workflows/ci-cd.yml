@@ -19,13 +19,13 @@ jobs:
         node-version: '20.x'
     
     - name: Install dependencies
-      run: npm run install-all
+      run: npm run install:all
 
     - name: Run Prettier
       run: npm run prettier:all
 
     - name: Run ESLint
-      run: npm run lint
+      run: npm run lint:all
     
     - name: Run server tests
       run: npm run test:server
