@@ -10,6 +10,9 @@ jobs:
   ci:
     runs-on: ubuntu-latest
 
+    env:
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}  # Inject the JWT_SECRET into the environment
+
     steps:
     - uses: actions/checkout@v4
     
