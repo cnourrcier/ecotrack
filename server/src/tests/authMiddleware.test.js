@@ -12,9 +12,6 @@ let mongoServer;
 
 beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create({
-        instance: {
-            dbName: 'authMiddlewareTest',
-        },
     });
     const uri = mongoServer.getUri();
     await mongoose.connect(uri);
