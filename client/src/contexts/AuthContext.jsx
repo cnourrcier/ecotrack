@@ -37,7 +37,6 @@ export const AuthProvider = ({ children }) => {
             setError(
                 error.response?.data?.message || 'Authentication check failed',
             );
-            navigate('/');
         } finally {
             setLoading(false);
         }
@@ -124,7 +123,7 @@ export const AuthProvider = ({ children }) => {
             console.error('Failed to fetch dashboard data', error);
             setError(
                 error.response?.data?.message ||
-                    'Failed to fetch dashboard data',
+                'Failed to fetch dashboard data',
             );
         }
     }, []);
@@ -157,7 +156,7 @@ export const AuthProvider = ({ children }) => {
             } else {
                 setError(
                     error.response?.data?.message ||
-                        'Password reset request failed',
+                    'Password reset request failed',
                 );
             }
             throw error;
@@ -176,7 +175,7 @@ export const AuthProvider = ({ children }) => {
             console.error('Password reset confirmation failed', error);
             setError(
                 error.response?.data?.message ||
-                    'Password reset confirmation failed',
+                'Password reset confirmation failed',
             );
             throw error;
         }
@@ -195,7 +194,7 @@ export const AuthProvider = ({ children }) => {
                     setUser(null);
                     setError(
                         refreshError.response?.data?.message ||
-                            'Session expired. Please login again.',
+                        'Session expired. Please login again.',
                     );
                     return Promise.reject(refreshError);
                 }

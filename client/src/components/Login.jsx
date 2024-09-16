@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -6,7 +6,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { login } = useAuth();
+    const { login, user } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -19,6 +19,12 @@ const Login = () => {
             setError(err.response?.data?.error || 'Failed to log in');
         }
     };
+
+    useEffect(() => {
+        if (user) {
+            navigate('/');
+        }
+    }, [user])
 
     return (
         <form onSubmit={handleSubmit}>

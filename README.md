@@ -17,33 +17,33 @@ Admin Panel
 
 ## Tech Stack
 
-Frontend: React with Material UI
-Backend: Node.js with Express
-Database: MongoDB
-Real-time data: WebSockets
-Mapping: Mapbox API
-Deployment: Heroku or Vercel
+**Frontend:** React with Material UI
+**Backend:** Node.js with Express
+**Database:** MongoDB
+**Real-time data:** WebSockets
+**Mapping:** Mapbox API
+**Deployment:** Render
+**CI/CD:** GitHub Actions
 
 ## Getting Started
 
 ### Prerequisites
 
-Node.js (v14 or later)
+Node.js (v20 or later)
 MongoDB
-Docker (optional)
+Docker
 
 ### Installation
 
 #### Clone the repository:
 ```
-git clone https://github.com/your-username/ecotrack.git
+git clone https://github.com/cnourrcier/ecotrack.git
 cd ecotrack
 ```
 
 #### Install dependencies:
 ```
-npm install
-cd client && npm install
+npm install:all
 ```
 
 #### Set up environment variables:
@@ -60,7 +60,7 @@ EMAIL_USER=your_email_user
 EMAIL_PASS=your_email_password
 ```
 
-#### Start the development server:
+#### Start the development server and client:
 ```
 npm run dev
 ```
@@ -112,10 +112,12 @@ ecotrack/
 │   │   │   └── // Global styles and theme
 │   │   ├── App.js
 │   │   └── index.js
+│   ├── .babelrc
+│   ├── Dockerfile
 │   ├── .eslintrc.json
 │   ├── package.json
+│   ├── webpack.config.js
 │   ├── README.md
-│   └── Dockerfile
 ├── server/
 │   ├── src/
 │   │   ├── config/
@@ -136,17 +138,20 @@ ecotrack/
 │   │   ├── websockets/
 │   │   │   └── // WebSocket handling
 │   │   └── app.js
+│   ├── API_DOCUMENTATION.md
+│   ├── Dockerfile
 │   ├── .eslintrc.json
-│   ├── package.json
-│   ├── README.md
-│   └── Dockerfile
+│   ├── jest.config.js
+│   ├── jest.setup.js
+│   └── package.json
 ├── shared/
 │   └── constants.js
+├── .env
 ├── .gitignore
 ├── .prettierrc
 ├── docker-compose.yml
-├── README.md
-└── package.json
+├── package.json
+└── README.md
 
 
 

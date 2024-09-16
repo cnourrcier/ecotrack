@@ -58,8 +58,33 @@ exports.logout = (req, res) => {
 // @desc    Get user environmental data
 // @route   GET /api/dashboard
 // @access  Protected
-exports.dashboard = (req, res) => {
-    res.json({ message: 'Welcome to your dashboard', user: req.user });
+exports.dashboard = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const dashboardData = {
+            user: {
+                username: user.username,
+                email: user.email
+            },
+            metrics: {
+                carbonFootprint: Math.floor(Math.random() * 1000) + 500, // Random value between 500-1500
+                energySaved: Math.floor(Math.random() * 500) + 100, // Random value between 100-600
+                waterConserved: Math.floor(Math.random() * 1000) + 200 // Random value between 200-1200
+            },
+            // can add more sections here in future
+        };
+
+        res.json({
+            message: 'Dashboard data retrieved successfully',
+            data: dashboardData
+        });
+    } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        res.status(500).json({ message: 'Error retrieving dashboard data', error: error.message });
+    }
 };
 
 // @desc    Get user account data (username, email, etc)
