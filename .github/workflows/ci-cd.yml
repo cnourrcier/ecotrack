@@ -20,7 +20,10 @@ jobs:
     
     - name: Install dependencies
       run: npm run install-all
-    
+
+    - name: Run Prettier
+      run: npm run prettier:all
+
     - name: Run ESLint
       run: npm run lint
     

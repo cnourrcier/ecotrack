@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
 
         res.json({
             user: userData,
-            message: 'Logged in successfully'
+            message: 'Logged in successfully',
         });
     } catch (error) {
         if (error.statusCode === 429) {
@@ -55,7 +55,7 @@ exports.logout = (req, res) => {
     res.json({ message: 'Logged out successfully' });
 };
 
-// @desc    Get user environmental data 
+// @desc    Get user environmental data
 // @route   GET /api/dashboard
 // @access  Protected
 exports.dashboard = (req, res) => {
@@ -79,16 +79,26 @@ exports.refreshToken = (req, res) => {
         return res.status(403).json({ message: 'Refresh token not provided' });
     }
 
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ message: 'Invalid refresh token' });
-        }
+    jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        (err, decoded) => {
+            if (err) {
+                return res
+                    .status(403)
+                    .json({ message: 'Invalid refresh token' });
+            }
 
-        const accessToken = jwt.sign({ userId: decoded.userId }, process.env.JWT_SECRET, { expiresIn: '15m' });
-        setAccessTokenCookie(res, accessToken);
+            const accessToken = jwt.sign(
+                { userId: decoded.userId },
+                process.env.JWT_SECRET,
+                { expiresIn: '15m' },
+            );
+            setAccessTokenCookie(res, accessToken);
 
-        res.json({ message: 'Token refreshed successfully' });
-    });
+            res.json({ message: 'Token refreshed successfully' });
+        },
+    );
 };
 
 // @desc    Check if user is authenticated
@@ -162,7 +172,11 @@ exports.resetPasswordConfirm = async (req, res) => {
         });
 
         if (!user) {
-            return res.status(400).json({ message: 'Password reset token is invalid or has expired' });
+            return res
+                .status(400)
+                .json({
+                    message: 'Password reset token is invalid or has expired',
+                });
         }
 
         // Set new password
@@ -174,10 +188,11 @@ exports.resetPasswordConfirm = async (req, res) => {
 
         res.status(200).json({ message: 'Password has been reset' });
     } catch (error) {
-        res.status(500).json({ message: 'Error in password reset confirmation' });
+        res.status(500).json({
+            message: 'Error in password reset confirmation',
+        });
     }
 };
-
 
 // Helper functions
 async function getUserData(userId) {
@@ -190,19 +205,30 @@ async function getUserData(userId) {
 
 function handleRegistrationError(error, res) {
     if (error.name === 'ValidationError') {
-        const validationErrors = Object.values(error.errors).map(err => err.message);
+        const validationErrors = Object.values(error.errors).map(
+            (err) => err.message,
+        );
         return res.status(400).json({ error: validationErrors.join(', ') });
     } else if (error.code === 11000) {
         const field = Object.keys(error.keyValue)[0];
         return res.status(400).json({ error: `${field} already exists` });
     }
     console.error('Registration error:', error);
-    res.status(500).json({ error: 'Registration failed', details: error.message });
+    res.status(500).json({
+        error: 'Registration failed',
+        details: error.message,
+    });
 }
 
 function generateTokens(userId) {
-    const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '15m' });
-    const refreshToken = jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+    const accessToken = jwt.sign({ userId }, process.env.JWT_SECRET, {
+        expiresIn: '15m',
+    });
+    const refreshToken = jwt.sign(
+        { userId },
+        process.env.REFRESH_TOKEN_SECRET,
+        { expiresIn: '7d' },
+    );
     return { accessToken, refreshToken };
 }
 

@@ -32,18 +32,18 @@ const Register = () => {
             <div>
                 <label>Username:</label>
                 <input
-                    type="text"
+                    type='text'
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
-                    minLength="3"
+                    minLength='3'
                 />
                 <small>Must be at least 3 characters long</small>
             </div>
             <div>
                 <label>Email:</label>
                 <input
-                    type="email"
+                    type='email'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -52,15 +52,15 @@ const Register = () => {
             <div>
                 <label>Password:</label>
                 <input
-                    type="password"
+                    type='password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    minLength="6"
+                    minLength='6'
                 />
                 <small>Must be at least 6 characters long</small>
             </div>
-            <button type="submit">Register</button>
+            <button type='submit'>Register</button>
         </form>
     );
 };

@@ -26,11 +26,11 @@ const Profile = () => {
     }, []);
 
     if (authError) {
-        return <div className="error-message">{authError}</div>;
+        return <div className='error-message'>{authError}</div>;
     }
     if (error) {
         return (
-            <div className="error-message">
+            <div className='error-message'>
                 {error}
                 <button onClick={loadProfile}>Retry</button>
             </div>
@@ -50,11 +50,15 @@ const Profile = () => {
     }
 
     return (
-        <div className="profile-container">
+        <div className='profile-container'>
             <h1>User Profile</h1>
-            <div className="profile-info">
-                <p><strong>Username:</strong> {profileData.user.username}</p>
-                <p><strong>Email:</strong> {profileData.user.email}</p>
+            <div className='profile-info'>
+                <p>
+                    <strong>Username:</strong> {profileData.user.username}
+                </p>
+                <p>
+                    <strong>Email:</strong> {profileData.user.email}
+                </p>
                 {/* Add more profile information here */}
             </div>
             <button onClick={loadProfile}>Refresh Profile</button>

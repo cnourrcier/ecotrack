@@ -29,7 +29,11 @@ beforeEach(async () => {
 describe('Auth Middleware', () => {
     describe('verifyToken', () => {
         it('should set req.user for valid token', async () => {
-            const user = await User.create({ username: 'testuser', email: 'test@example.com', password: 'password123' });
+            const user = await User.create({
+                username: 'testuser',
+                email: 'test@example.com',
+                password: 'password123',
+            });
             const token = 'valid_token';
             jwt.verify.mockImplementation(() => ({ userId: user._id }));
 
@@ -89,14 +93,16 @@ describe('Auth Middleware', () => {
             const req = {};
             const res = {
                 status: jest.fn().mockReturnThis(),
-                json: jest.fn()
+                json: jest.fn(),
             };
             const next = jest.fn();
 
             requireAuth(req, res, next);
 
             expect(res.status).toHaveBeenCalledWith(401);
-            expect(res.json).toHaveBeenCalledWith({ message: 'Authentication required' });
+            expect(res.json).toHaveBeenCalledWith({
+                message: 'Authentication required',
+            });
             expect(next).not.toHaveBeenCalled();
         });
     });
@@ -104,7 +110,11 @@ describe('Auth Middleware', () => {
     // Integration tests
     describe('Protected Route', () => {
         it('should allow access to dashboard with valid token', async () => {
-            const user = await User.create({ username: 'dashboarduser', email: 'dashboard@example.com', password: 'password123' });
+            const user = await User.create({
+                username: 'dashboarduser',
+                email: 'dashboard@example.com',
+                password: 'password123',
+            });
             const token = 'valid_token';
 
             jwt.verify.mockImplementation(() => ({ userId: user._id }));
@@ -114,14 +124,20 @@ describe('Auth Middleware', () => {
                 .set('Cookie', [`token=${token}`]);
 
             expect(res.statusCode).toBe(200);
-            expect(res.body).toHaveProperty('message', 'Welcome to your dashboard');
+            expect(res.body).toHaveProperty(
+                'message',
+                'Welcome to your dashboard',
+            );
         });
 
         it('should deny access to dashboard without token', async () => {
             const res = await request(app).get('/api/dashboard');
 
             expect(res.statusCode).toBe(401);
-            expect(res.body).toHaveProperty('message', 'Authentication required');
+            expect(res.body).toHaveProperty(
+                'message',
+                'Authentication required',
+            );
         });
     });
 });

@@ -14,15 +14,15 @@ const app = express();
 
 const corsOptions = {
     origin: process.env.CORS_ORIGIN, // Allow only this origin
-    optionsSuccessStatus: 200 // For legacy browser support
-}
+    optionsSuccessStatus: 200, // For legacy browser support
+};
 
 // Global rate limiter
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // Limit each IP to 100 requests per windowMs
     standardHeaders: true,
-    legacyHeaders: false
+    legacyHeaders: false,
 });
 
 app.use(limiter); // Apply rate limiting to all requests
@@ -34,10 +34,10 @@ app.use(cors(corsOptions));
 
 app.use('/api', authRoutes);
 
-
 if (process.env.NODE_ENV !== 'test') {
     // Connect to MongoDB
-    mongoose.connect(process.env.MONGODB_URI)
+    mongoose
+        .connect(process.env.MONGODB_URI)
         .then(() => console.log('Connected to MongoDB'))
         .catch((err) => console.error('Could not connect to MongoDB', err));
 

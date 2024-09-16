@@ -35,26 +35,28 @@ const PasswordResetConfirm = () => {
             <h2>Set New Password</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="password">New Password:</label>
+                    <label htmlFor='password'>New Password:</label>
                     <input
-                        type="password"
-                        id="password"
+                        type='password'
+                        id='password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
                 <div>
-                    <label htmlFor="confirmPassword">Confirm New Password:</label>
+                    <label htmlFor='confirmPassword'>
+                        Confirm New Password:
+                    </label>
                     <input
-                        type="password"
-                        id="confirmPassword"
+                        type='password'
+                        id='confirmPassword'
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                     />
                 </div>
-                <button type="submit">Reset Password</button>
+                <button type='submit'>Reset Password</button>
             </form>
             {message && <p style={{ color: 'green' }}>{message}</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}

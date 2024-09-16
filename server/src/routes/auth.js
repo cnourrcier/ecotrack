@@ -10,14 +10,18 @@ router.post('/register', authController.register);
 router.post('/login', rateLimitMiddleware.loginLimiter, authController.login);
 router.post('/refresh-token', authController.refreshToken);
 router.post('/logout', authController.logout);
-router.post('/reset-password-request', rateLimitMiddleware.passwordResetLimiter, authController.resetPasswordRequest);
+router.post(
+    '/reset-password-request',
+    rateLimitMiddleware.passwordResetLimiter,
+    authController.resetPasswordRequest,
+);
 router.post('/reset-password-confirm', authController.resetPasswordConfirm);
 
 // Apply verifyToken middleware to all routes below this point
 router.use(authMiddleware.verifyToken);
 
 // Routes that use authentication if available
-router.get('/check-auth', authController.checkAuth)
+router.get('/check-auth', authController.checkAuth);
 
 // Protected routes
 router.get('/dashboard', authMiddleware.requireAuth, authController.dashboard);

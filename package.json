@@ -8,11 +8,14 @@
     "server": "nodemon server/src/app.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "install-all": "npm install && npm install --prefix server && npm install --prefix client",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
     "test:server": "cd server && npm test",
-    "lint": "npm run lint:client && npm run lint:server",
+    "lint:all": "npm run lint:client && npm run lint:server",
     "lint:client": "cd client && eslint .",
-    "lint:server": "cd server && eslint ."
+    "lint:server": "cd server && eslint .",
+    "prettier:client": "prettier --write 'client/**/*.{js,jsx,json,css}'",
+    "prettier:server": "prettier --write 'server/**/*.{js,json}'",
+    "prettier:all": "prettier --write 'client/**/*.{js,jsx,json,css}' 'server/**/*.{js,json}'"
   },
   "keywords": [],
   "author": "Charlie Nourrcier",

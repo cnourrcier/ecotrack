@@ -1,4 +1,10 @@
-import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import React, {
+    createContext,
+    useState,
+    useContext,
+    useEffect,
+    useCallback,
+} from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext(null);
@@ -20,13 +26,17 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get('/api/check-auth', { withCredentials: true });
+            const response = await axios.get('/api/check-auth', {
+                withCredentials: true,
+            });
             console.log('checkAuth response:', response.data);
             setUser(response.data.user);
         } catch (error) {
             console.error('Authentication check failed', error);
             setUser(null);
-            setError(error.response?.data?.message || 'Authentication check failed');
+            setError(
+                error.response?.data?.message || 'Authentication check failed',
+            );
             navigate('/');
         } finally {
             setLoading(false);
@@ -38,7 +48,11 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         setError(null);
         try {
-            const response = await axios.post('/api/login', { email, password }, { withCredentials: true });
+            const response = await axios.post(
+                '/api/login',
+                { email, password },
+                { withCredentials: true },
+            );
             setUser(response.data.user);
             return response.data;
         } catch (error) {
@@ -57,7 +71,11 @@ export const AuthProvider = ({ children }) => {
     const register = async (username, email, password) => {
         setError(null);
         try {
-            const response = await axios.post('/api/register', { username, email, password }, { withCredentials: true });
+            const response = await axios.post(
+                '/api/register',
+                { username, email, password },
+                { withCredentials: true },
+            );
             setUser(response.data.user);
             return response.data;
         } catch (error) {
@@ -84,7 +102,11 @@ export const AuthProvider = ({ children }) => {
     // set user to null if refresh token is invalid
     const refreshToken = async () => {
         try {
-            await axios.post('/api/refresh-token', {}, { withCredentials: true });
+            await axios.post(
+                '/api/refresh-token',
+                {},
+                { withCredentials: true },
+            );
         } catch (error) {
             console.error('Token refresh failed', error);
             setUser(null);
@@ -94,35 +116,49 @@ export const AuthProvider = ({ children }) => {
 
     const fetchDashboardData = useCallback(async () => {
         try {
-            const response = await axios.get('/api/dashboard', { withCredentials: true });
+            const response = await axios.get('/api/dashboard', {
+                withCredentials: true,
+            });
             return response.data;
         } catch (error) {
             console.error('Failed to fetch dashboard data', error);
-            setError(error.response?.data?.message || 'Failed to fetch dashboard data');
+            setError(
+                error.response?.data?.message ||
+                    'Failed to fetch dashboard data',
+            );
         }
     }, []);
 
     const fetchProfileData = useCallback(async () => {
         try {
-            const response = await axios.get('/api/profile', { withCredentials: true });
+            const response = await axios.get('/api/profile', {
+                withCredentials: true,
+            });
             return response.data;
         } catch (error) {
             console.error('Failed to fetch profile data', error);
-            setError(error.response?.data?.message || 'Failed to fetch profile data');
+            setError(
+                error.response?.data?.message || 'Failed to fetch profile data',
+            );
         }
     }, []);
 
     const resetPasswordRequest = async (email) => {
         setError(null);
         try {
-            const response = await axios.post('/api/reset-password-request', { email });
+            const response = await axios.post('/api/reset-password-request', {
+                email,
+            });
             return response.data;
         } catch (error) {
             console.error('Password reset request failed', error);
             if (error.response?.status === 429) {
                 setError(error.response.data.message);
             } else {
-                setError(error.response?.data?.message || 'Password reset request failed');
+                setError(
+                    error.response?.data?.message ||
+                        'Password reset request failed',
+                );
             }
             throw error;
         }
@@ -131,11 +167,17 @@ export const AuthProvider = ({ children }) => {
     const resetPasswordConfirm = async (token, newPassword) => {
         setError(null);
         try {
-            const response = await axios.post('/api/reset-password-confirm', { token, newPassword });
+            const response = await axios.post('/api/reset-password-confirm', {
+                token,
+                newPassword,
+            });
             return response.data;
         } catch (error) {
             console.error('Password reset confirmation failed', error);
-            setError(error.response?.data?.message || 'Password reset confirmation failed');
+            setError(
+                error.response?.data?.message ||
+                    'Password reset confirmation failed',
+            );
             throw error;
         }
     };
@@ -151,29 +193,36 @@ export const AuthProvider = ({ children }) => {
                     return axios(originalRequest);
                 } catch (refreshError) {
                     setUser(null);
-                    setError(refreshError.response?.data?.message || 'Session expired. Please login again.');
+                    setError(
+                        refreshError.response?.data?.message ||
+                            'Session expired. Please login again.',
+                    );
                     return Promise.reject(refreshError);
                 }
             }
-            setError(error.response?.data?.message || 'An unexpected error occurred');
+            setError(
+                error.response?.data?.message || 'An unexpected error occurred',
+            );
             return Promise.reject(error);
-        }
+        },
     );
 
     return (
-        <AuthContext.Provider value={{
-            user,
-            loading,
-            error,
-            login,
-            register,
-            logout,
-            checkAuth,
-            fetchDashboardData,
-            fetchProfileData,
-            resetPasswordRequest,
-            resetPasswordConfirm
-        }}>
+        <AuthContext.Provider
+            value={{
+                user,
+                loading,
+                error,
+                login,
+                register,
+                logout,
+                checkAuth,
+                fetchDashboardData,
+                fetchProfileData,
+                resetPasswordRequest,
+                resetPasswordConfirm,
+            }}
+        >
             {children}
         </AuthContext.Provider>
     );

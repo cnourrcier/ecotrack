@@ -26,11 +26,11 @@ const Dashboard = () => {
     }, []);
 
     if (authError) {
-        return <div className="error-message">{authError}</div>;
+        return <div className='error-message'>{authError}</div>;
     }
     if (error) {
         return (
-            <div className="error-message">
+            <div className='error-message'>
                 {error}
                 <button onClick={loadDashboard}>Retry</button>
             </div>
@@ -44,16 +44,23 @@ const Dashboard = () => {
     if (!dashboardData) {
         return <div>No dashboard data available.</div>;
     }
-    console.log(dashboardData)
+    console.log(dashboardData);
     return (
-        <div className="dashboard-container">
+        <div className='dashboard-container'>
             <h1>Dashboard</h1>
-            <p>{dashboardData.message}, {dashboardData.user.username}!</p>
-            <div className="dashboard-stats">
+            <p>
+                {dashboardData.message}, {dashboardData.user.username}!
+            </p>
+            <div className='dashboard-stats'>
                 <h2>Your Eco Stats</h2>
-                <p>Carbon Footprint: {dashboardData.user.carbonFootprint} kg CO2e</p>
+                <p>
+                    Carbon Footprint: {dashboardData.user.carbonFootprint} kg
+                    CO2e
+                </p>
                 <p>Energy Saved: {dashboardData.user.energySaved} kWh</p>
-                <p>Water Conserved: {dashboardData.user.waterConserved} liters</p>
+                <p>
+                    Water Conserved: {dashboardData.user.waterConserved} liters
+                </p>
             </div>
             <button onClick={loadDashboard}>Refresh Dashboard</button>
         </div>

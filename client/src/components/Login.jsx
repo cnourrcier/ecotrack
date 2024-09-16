@@ -27,7 +27,7 @@ const Login = () => {
             <div>
                 <label>Email:</label>
                 <input
-                    type="email"
+                    type='email'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -36,14 +36,17 @@ const Login = () => {
             <div>
                 <label>Password:</label>
                 <input
-                    type="password"
+                    type='password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
             </div>
-            <button type="submit">Login</button>
-            <p>Forgot your password? Click <Link to="/reset-password">here</Link> to reset your password</p>
+            <button type='submit'>Login</button>
+            <p>
+                Forgot your password? Click{' '}
+                <Link to='/reset-password'>here</Link> to reset your password
+            </p>
         </form>
     );
 };

@@ -15,7 +15,7 @@ const Logout = () => {
         } catch (err) {
             setError(err.response?.data?.error || 'Failed to log out');
         }
-    }
+    };
 
     return (
         <div>
@@ -24,7 +24,7 @@ const Logout = () => {
                 Logout
             </button>
         </div>
-    )
-}
+    );
+};
 
 export default Logout;
