@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
 const cors = require('cors');
+const http = require('http');
+const setupWebSocket = require('./websocket');
 const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/auth');
 
@@ -11,6 +13,7 @@ const authRoutes = require('./routes/auth');
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const app = express();
+const server = http.createServer(app);
 
 const corsOptions = {
     origin: process.env.CORS_ORIGIN, // Allow only this origin
@@ -25,7 +28,7 @@ const limiter = rateLimit({
     legacyHeaders: false,
 });
 
-app.use(limiter); // Apply rate limiting to all requests
+// app.use(limiter); // Apply rate limiting to all requests
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,6 +36,8 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 
 app.use('/api', authRoutes);
+
+setupWebSocket(server);
 
 if (process.env.NODE_ENV !== 'test') {
     // Connect to MongoDB
@@ -43,7 +48,7 @@ if (process.env.NODE_ENV !== 'test') {
 
     // Start the server
     const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
 
-module.exports = app;
+module.exports = { app, server };

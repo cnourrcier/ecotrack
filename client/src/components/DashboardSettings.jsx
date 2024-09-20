@@ -1,9 +1,9 @@
-import React from 'react';
-import { Button, Menu, MenuItem, ListItemIcon, ListItemText, Switch, IconButton } from '@mui/material';
-import { Settings, ArrowUpward, ArrowDownward } from '@mui/icons-material';
+import React, { useState } from 'react';
+import { Button, Menu, MenuItem, ListItemText, Switch, Slider, Typography, Box } from '@mui/material';
+import { Settings } from '@mui/icons-material';
 
-const DashboardSettings = ({ layout, setLayout }) => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+const DashboardSettings = ({ settings, updateSettings }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -13,25 +13,13 @@ const DashboardSettings = ({ layout, setLayout }) => {
         setAnchorEl(null);
     };
 
-    const toggleWidget = (widget) => {
-        setLayout(prev =>
-            prev.includes(widget)
-                ? prev.filter(item => item !== widget)
-                : [...prev, widget]
-        );
+    const handleToggle = (setting) => {
+        updateSettings({ ...settings, [setting]: !settings[setting] });
     };
 
-    const moveWidget = (widget, direction) => {
-        const index = layout.indexOf(widget);
-        if ((direction === 'up' && index > 0) || (direction === 'down' && index < layout.length - 1)) {
-            const newLayout = [...layout];
-            const newIndex = direction === 'up' ? index - 1 : index + 1;
-            [newLayout[index], newLayout[newIndex]] = [newLayout[newIndex], newLayout[index]];
-            setLayout(newLayout);
-        }
+    const handleRefreshRateChange = (event, newValue) => {
+        updateSettings({ ...settings, refreshRate: newValue });
     };
-
-    const allWidgets = ['metrics', 'graph', 'map'];
 
     return (
         <>
@@ -41,40 +29,54 @@ const DashboardSettings = ({ layout, setLayout }) => {
                 variant="outlined"
                 sx={{ mb: 2 }}
             >
-                Customize Dashboard
+                Dashboard Settings
             </Button>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                {allWidgets.map((widget) => (
-                    <MenuItem key={widget}>
-                        <ListItemIcon>
-                            <Switch
-                                edge="start"
-                                checked={layout.includes(widget)}
-                                onChange={() => toggleWidget(widget)}
-                                inputProps={{ 'aria-label': `toggle ${widget}` }}
-                            />
-                        </ListItemIcon>
-                        <ListItemText primary={widget.charAt(0).toUpperCase() + widget.slice(1)} />
-                        <IconButton
-                            size="small"
-                            onClick={() => moveWidget(widget, 'up')}
-                            disabled={!layout.includes(widget) || layout.indexOf(widget) === 0}
-                        >
-                            <ArrowUpward fontSize="small" />
-                        </IconButton>
-                        <IconButton
-                            size="small"
-                            onClick={() => moveWidget(widget, 'down')}
-                            disabled={!layout.includes(widget) || layout.indexOf(widget) === layout.length - 1}
-                        >
-                            <ArrowDownward fontSize="small" />
-                        </IconButton>
-                    </MenuItem>
-                ))}
+                <MenuItem>
+                    <ListItemText>Use Metric Units</ListItemText>
+                    <Switch
+                        edge="end"
+                        checked={settings.useMetricUnits}
+                        onChange={() => handleToggle('useMetricUnits')}
+                    />
+                </MenuItem>
+                <MenuItem>
+                    <ListItemText>Show Trends</ListItemText>
+                    <Switch
+                        edge="end"
+                        checked={settings.showTrends}
+                        onChange={() => handleToggle('showTrends')}
+                    />
+                </MenuItem>
+                <MenuItem>
+                    <ListItemText>Dark Mode</ListItemText>
+                    <Switch
+                        edge="end"
+                        checked={settings.darkMode}
+                        onChange={() => handleToggle('darkMode')}
+                    />
+                </MenuItem>
+                <MenuItem>
+                    <Box sx={{ width: 200 }}>
+                        <Typography id="refresh-rate-slider" gutterBottom>
+                            Refresh Rate: {settings.refreshRate} seconds
+                        </Typography>
+                        <Slider
+                            value={settings.refreshRate}
+                            onChange={handleRefreshRateChange}
+                            aria-labelledby="refresh-rate-slider"
+                            valueLabelDisplay="auto"
+                            step={1}
+                            marks
+                            min={1}
+                            max={60}
+                        />
+                    </Box>
+                </MenuItem>
             </Menu>
         </>
     );

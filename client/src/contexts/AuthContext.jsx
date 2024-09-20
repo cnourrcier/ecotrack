@@ -113,6 +113,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Unused, but keep for now for historical data or initial data
     const fetchDashboardData = useCallback(async () => {
         try {
             const response = await axios.get('/api/dashboard', {

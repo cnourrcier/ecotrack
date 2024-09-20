@@ -31,11 +31,8 @@ function App() {
                         element={<PasswordResetConfirm />}
                     />
                     <Route element={<ProtectedRoute />}>
-                        <Route
-                            path='/dashboard'
-                            element={<Dashboard />}
-                        ></Route>
-                        <Route path='/profile' element={<Profile />}></Route>
+                        <Route path='/dashboard' element={<Dashboard />} />
+                        <Route path='/profile' element={<Profile />} />
                     </Route>
                 </Routes>
             </Router>
