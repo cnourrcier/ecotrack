@@ -1,7 +1,7 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const app = require('../app');
+const { server } = require('../app');
 const User = require('../models/User');
 const sendEmail = require('../utils/sendEmail');
 const jwt = require('jsonwebtoken');
@@ -26,6 +26,7 @@ beforeAll(async () => {
 afterAll(async () => {
     await mongoose.disconnect();
     await mongoServer.stop();
+    server.close();
 });
 
 // Clear users before each test
@@ -38,7 +39,7 @@ describe('Authentication Controller', () => {
     describe('POST /api/register', () => {
         // Test successful user registration
         it('should register a new user', async () => {
-            const res = await request(app).post('/api/register').send({
+            const res = await request(server).post('/api/register').send({
                 username: 'testuser',
                 email: 'test@example.com',
                 password: 'password123',
@@ -57,7 +58,7 @@ describe('Authentication Controller', () => {
                 email: 'existing@example.com',
                 password: 'password123',
             });
-            const res = await request(app).post('/api/register').send({
+            const res = await request(server).post('/api/register').send({
                 username: 'newuser',
                 email: 'existing@example.com',
                 password: 'password123',
@@ -67,7 +68,7 @@ describe('Authentication Controller', () => {
         });
 
         it('should not register a user with invalid email format', async () => {
-            const res = await request(app).post('/api/register').send({
+            const res = await request(server).post('/api/register').send({
                 username: 'testuser',
                 email: 'invalid-email',
                 password: 'password123',
@@ -77,7 +78,7 @@ describe('Authentication Controller', () => {
         });
 
         it('should not register a user with a short password', async () => {
-            const res = await request(app).post('/api/register').send({
+            const res = await request(server).post('/api/register').send({
                 username: 'testuser',
                 email: 'test@example.com',
                 password: 'short',
@@ -95,7 +96,7 @@ describe('Authentication Controller', () => {
                 email: 'login@example.com',
                 password: 'password123',
             });
-            const res = await request(app).post('/api/login').send({
+            const res = await request(server).post('/api/login').send({
                 email: 'login@example.com',
                 password: 'password123',
             });
@@ -114,7 +115,7 @@ describe('Authentication Controller', () => {
                 email: 'login@example.com',
                 password: 'password123',
             });
-            const res = await request(app).post('/api/login').send({
+            const res = await request(server).post('/api/login').send({
                 email: 'login@example.com',
                 password: 'wrongpassword',
             });
@@ -127,7 +128,7 @@ describe('Authentication Controller', () => {
                 throw new Error('Database error');
             });
 
-            const res = await request(app).post('/api/login').send({
+            const res = await request(server).post('/api/login').send({
                 email: 'error@example.com',
                 password: 'password123',
             });
@@ -139,7 +140,7 @@ describe('Authentication Controller', () => {
 
     describe('POST /api/logout', () => {
         it('should clear cookies and log out the user', async () => {
-            const res = await request(app).post('/api/logout');
+            const res = await request(server).post('/api/logout');
             expect(res.statusCode).toBe(200);
             expect(res.body).toHaveProperty(
                 'message',
@@ -175,7 +176,7 @@ describe('Authentication Controller', () => {
                 callback(null, { userId: user._id });
             });
 
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/refresh-token')
                 .set('Cookie', [`refreshToken=${refreshToken}`]);
 
@@ -193,7 +194,7 @@ describe('Authentication Controller', () => {
         });
 
         it('should return 403 for missing refresh token', async () => {
-            const res = await request(app).post('/api/refresh-token');
+            const res = await request(server).post('/api/refresh-token');
             expect(res.statusCode).toBe(403);
             expect(res.body).toHaveProperty(
                 'message',
@@ -206,7 +207,7 @@ describe('Authentication Controller', () => {
                 callback(new Error('Invalid token'));
             });
 
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/refresh-token')
                 .set('Cookie', ['refreshToken=invalidtoken']);
 
@@ -226,7 +227,7 @@ describe('Authentication Controller', () => {
                 email: 'reset@example.com',
                 password: 'password123',
             });
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-request')
                 .send({
                     email: 'reset@example.com',
@@ -247,7 +248,7 @@ describe('Authentication Controller', () => {
 
         // Test password reset request for non-existing user
         it('should not send a password reset email for a non-existing user', async () => {
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-request')
                 .send({
                     email: 'nonexistent@example.com',
@@ -263,7 +264,7 @@ describe('Authentication Controller', () => {
                 email: 'reset@example.com',
                 password: 'password123',
             });
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-request')
                 .send({
                     email: 'reset@example.com',
@@ -295,7 +296,7 @@ describe('Authentication Controller', () => {
             });
 
             // First request
-            const res1 = await request(app)
+            const res1 = await request(server)
                 .post('/api/reset-password-request')
                 .send({ email: 'reset@example.com' });
 
@@ -313,7 +314,7 @@ describe('Authentication Controller', () => {
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
             // Second request for the same user
-            const res2 = await request(app)
+            const res2 = await request(server)
                 .post('/api/reset-password-request')
                 .send({ email: 'reset@example.com' });
 
@@ -349,7 +350,7 @@ describe('Authentication Controller', () => {
         });
 
         it('should not update resetPasswordToken for non-existent user', async () => {
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-request')
                 .send({ email: 'nonexistent@example.com' });
 
@@ -379,7 +380,7 @@ describe('Authentication Controller', () => {
         });
 
         it('should reset password with valid token', async () => {
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-confirm')
                 .send({
                     token: resetToken,
@@ -402,7 +403,7 @@ describe('Authentication Controller', () => {
         });
 
         it('should not reset password with invalid token', async () => {
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-confirm')
                 .send({
                     token: 'invalidtoken',
@@ -421,7 +422,7 @@ describe('Authentication Controller', () => {
             user.resetPasswordExpires = Date.now() - 3600000; // 1 hour ago
             await user.save();
 
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-confirm')
                 .send({
                     token: resetToken,
@@ -437,7 +438,7 @@ describe('Authentication Controller', () => {
 
         // Test for case sensitivity in token
         it('should be case-sensitive for reset token', async () => {
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-confirm')
                 .send({
                     token: resetToken.toUpperCase(), // Using uppercase version
@@ -454,13 +455,13 @@ describe('Authentication Controller', () => {
         // Test for token reuse
         it('should not allow reuse of reset token', async () => {
             // First reset
-            await request(app).post('/api/reset-password-confirm').send({
+            await request(server).post('/api/reset-password-confirm').send({
                 token: resetToken,
                 newPassword: 'newpassword123',
             });
 
             // Attempt second reset with same token
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-confirm')
                 .send({
                     token: resetToken,
@@ -478,7 +479,7 @@ describe('Authentication Controller', () => {
             // Delete the user
             await User.deleteMany({});
 
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-confirm')
                 .send({
                     token: resetToken,
@@ -498,7 +499,7 @@ describe('Authentication Controller', () => {
                 throw new Error('Database error');
             });
 
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-confirm')
                 .send({
                     token: resetToken,

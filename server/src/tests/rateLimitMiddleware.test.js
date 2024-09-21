@@ -2,7 +2,7 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const app = require('../app');
+const { server } = require('../app');
 const User = require('../models/User');
 
 jest.mock('../utils/sendEmail');
@@ -38,7 +38,7 @@ describe('Rate Limit Middleware', () => {
 
         // Make 6 login attempts
         for (let i = 0; i < 6; i++) {
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/login')
                 .send({ email: 'login@example.com', password: 'password123' });
 
@@ -69,7 +69,7 @@ describe('Rate Limit Middleware', () => {
 
         // Make 6 requests
         for (let i = 0; i < 6; i++) {
-            const res = await request(app)
+            const res = await request(server)
                 .post('/api/reset-password-request')
                 .send({ email: 'ratelimit@example.com' });
 

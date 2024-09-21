@@ -2,7 +2,7 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const jwt = require('jsonwebtoken');
-const app = require('../app');
+const { server } = require('../app');
 const User = require('../models/User');
 const { verifyToken, requireAuth } = require('../middleware/authMiddleware');
 
@@ -120,7 +120,7 @@ describe('Auth Middleware', () => {
 
             jwt.verify.mockImplementation(() => ({ userId: user._id }));
 
-            const res = await request(app)
+            const res = await request(server)
                 .get('/api/dashboard')
                 .set('Cookie', [`token=${token}`]);
 
@@ -132,7 +132,7 @@ describe('Auth Middleware', () => {
         });
 
         it('should deny access to dashboard without token', async () => {
-            const res = await request(app).get('/api/dashboard');
+            const res = await request(server).get('/api/dashboard');
 
             expect(res.statusCode).toBe(401);
             expect(res.body).toHaveProperty(
