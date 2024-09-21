@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Typography, CssBaseline, ThemeProvider, createTheme, Alert, Paper, Button } from '@mui/material';
+import { Box, Typography, Container, createTheme, Alert, Paper, Button } from '@mui/material';
 import { useWebSocket } from '../hooks/useWebSocket';
 import DashboardSettings from './DashboardSettings';
 import AirQualityWidget from './widgets/AirQualityWidget';
@@ -16,7 +16,6 @@ const Dashboard = () => {
     const [settings, setSettings] = useState({
         useMetricUnits: true,
         showTrends: false,
-        darkMode: false,
         refreshRate: DEFAULT_REFRESH_RATE,
     });
     const { lastMessage, sendMessage, isConnected, error } = useWebSocket();
@@ -73,46 +72,43 @@ const Dashboard = () => {
     }
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Box sx={{ flexGrow: 1, p: 3 }}>
-                <Typography variant="h4" gutterBottom>
-                    Environmental Monitoring Dashboard
-                </Typography>
-                {!isConnected && (
-                    <Alert severity="warning" sx={{ mb: 2 }}>
-                        WebSocket disconnected. Attempting to reconnect...
-                    </Alert>
-                )}
-                {error && (
-                    <Alert severity="error" sx={{ mb: 2 }}>
-                        {error}
-                    </Alert>
-                )}
-                <DashboardSettings settings={settings} updateSettings={setSettings} />
-                {dashboardData ? (
-                    <Box display="flex" flexDirection="column" gap={3}>
-                        <Paper elevation={3} sx={{ p: 2 }}>
-                            <AirQualityWidget data={dashboardData.airQuality} settings={settings} />
-                        </Paper>
-                        <Paper elevation={3} sx={{ p: 2 }}>
-                            <WeatherWidget data={dashboardData.weather} settings={settings} />
-                        </Paper>
-                        <Paper elevation={3} sx={{ p: 2 }}>
-                            <EnergyWidget data={dashboardData.energy} settings={settings} />
-                        </Paper>
-                        <Paper elevation={3} sx={{ p: 2 }}>
-                            <WaterWidget data={dashboardData.water} settings={settings} />
-                        </Paper>
-                        <Paper elevation={3} sx={{ p: 2 }}>
-                            <WasteWidget data={dashboardData.waste} settings={settings} />
-                        </Paper>
-                    </Box>
-                ) : (
-                    <Typography>Loading dashboard data...</Typography>
-                )}
-            </Box>
-        </ThemeProvider>
+        <Container maxWidth="lg" sx={{ mt: 4 }}>
+            <Typography variant="h4" gutterBottom>
+                Environmental Monitoring Dashboard
+            </Typography>
+            {!isConnected && (
+                <Alert severity="warning" sx={{ mb: 2 }}>
+                    WebSocket disconnected. Attempting to reconnect...
+                </Alert>
+            )}
+            {error && (
+                <Alert severity="error" sx={{ mb: 2 }}>
+                    {error}
+                </Alert>
+            )}
+            <DashboardSettings settings={settings} updateSettings={setSettings} />
+            {dashboardData ? (
+                <Box display="flex" flexDirection="column" gap={3}>
+                    <Paper elevation={3} sx={{ p: 2 }}>
+                        <AirQualityWidget data={dashboardData.airQuality} settings={settings} />
+                    </Paper>
+                    <Paper elevation={3} sx={{ p: 2 }}>
+                        <WeatherWidget data={dashboardData.weather} settings={settings} />
+                    </Paper>
+                    <Paper elevation={3} sx={{ p: 2 }}>
+                        <EnergyWidget data={dashboardData.energy} settings={settings} />
+                    </Paper>
+                    <Paper elevation={3} sx={{ p: 2 }}>
+                        <WaterWidget data={dashboardData.water} settings={settings} />
+                    </Paper>
+                    <Paper elevation={3} sx={{ p: 2 }}>
+                        <WasteWidget data={dashboardData.waste} settings={settings} />
+                    </Paper>
+                </Box>
+            ) : (
+                <Typography>Loading dashboard data...</Typography>
+            )}
+        </Container>
     );
 };
 

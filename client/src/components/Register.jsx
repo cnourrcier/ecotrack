@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import {
+    Container,
+    Typography,
+    TextField,
+    Button,
+    Box,
+    Paper,
+    Alert,
+    FormHelperText
+} from '@mui/material';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -25,43 +36,83 @@ const Register = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Register</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {success && <p style={{ color: 'green' }}>{success}</p>}
-            <div>
-                <label>Username:</label>
-                <input
-                    type='text'
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    minLength='3'
-                />
-                <small>Must be at least 3 characters long</small>
-            </div>
-            <div>
-                <label>Email:</label>
-                <input
-                    type='email'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input
-                    type='password'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    minLength='6'
-                />
-                <small>Must be at least 6 characters long</small>
-            </div>
-            <button type='submit'>Register</button>
-        </form>
+        <Container component="main" maxWidth="xs">
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Paper elevation={3} sx={{ padding: 4, width: '100%' }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            mb: 2
+                        }}
+                    >
+                        <PersonAddIcon sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
+                        <Typography component="h1" variant="h5">
+                            Register
+                        </Typography>
+                    </Box>
+                    {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+                    {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoComplete="username"
+                            autoFocus
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            inputProps={{ minLength: 3 }}
+                        />
+                        <FormHelperText>Must be at least 3 characters long</FormHelperText>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="new-password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            inputProps={{ minLength: 6 }}
+                        />
+                        <FormHelperText>Must be at least 6 characters long</FormHelperText>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Register
+                        </Button>
+                    </Box>
+                </Paper>
+            </Box>
+        </Container>
     );
 };
 

@@ -53,14 +53,6 @@ const DashboardSettings = ({ settings, updateSettings }) => {
                     />
                 </MenuItem>
                 <MenuItem>
-                    <ListItemText>Dark Mode</ListItemText>
-                    <Switch
-                        edge="end"
-                        checked={settings.darkMode}
-                        onChange={() => handleToggle('darkMode')}
-                    />
-                </MenuItem>
-                <MenuItem>
                     <Box sx={{ width: 200 }}>
                         <Typography id="refresh-rate-slider" gutterBottom>
                             Refresh Rate: {settings.refreshRate} seconds
