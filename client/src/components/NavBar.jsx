@@ -29,7 +29,7 @@ const Navbar = () => {
     };
 
     const menuItems = user ? [
-        { text: 'Dashboard', link: '/dashboard' },
+        { text: 'Dashboard', link: '/dashboard-navigation' },
         { text: 'Profile', link: '/profile' },
         { text: 'Logout', onClick: handleLogout }
     ] : [

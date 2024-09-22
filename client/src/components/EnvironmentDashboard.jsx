@@ -11,7 +11,7 @@ import WasteWidget from './widgets/WasteWidget';
 
 const DEFAULT_REFRESH_RATE = 5; // 5 seconds
 
-const Dashboard = () => {
+const EnvironmentDashboard = () => {
     const [dashboardData, setDashboardData] = useState(null);
     const [settings, setSettings] = useState({
         useMetricUnits: true,
@@ -72,7 +72,7 @@ const Dashboard = () => {
     }
 
     return (
-        <Container maxWidth="lg" sx={{ mt: 4 }}>
+        <Container maxWidth="lg" sx={{ mt: 4, marginTop: 8, marginBottom: 8, }}>
             <Typography variant="h4" gutterBottom>
                 Environmental Monitoring Dashboard
             </Typography>
@@ -112,4 +112,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default EnvironmentDashboard;

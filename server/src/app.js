@@ -28,7 +28,7 @@ const limiter = rateLimit({
     legacyHeaders: false,
 });
 
-// app.use(limiter); // Apply rate limiting to all requests
+app.use(limiter); // Apply rate limiting to all requests
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
