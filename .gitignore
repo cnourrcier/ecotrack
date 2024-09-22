@@ -21,3 +21,5 @@ Thumbs.db
 
 # Docker
 *.env
+
+client/src/assets
