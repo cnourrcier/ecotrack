@@ -11,7 +11,17 @@ exports.register = async (req, res) => {
         const { username, email, password } = req.body;
         const user = new User({ username, email, password });
         await user.save();
-        res.status(201).json({ message: 'User registered successfully' });
+
+        const { accessToken, refreshToken } = generateTokens(user._id);
+        setTokenCookies(res, accessToken, refreshToken);
+
+        const userData = user.toObject();
+        delete userData.password;
+
+        res.status(201).json({
+            user: userData,
+            message: 'User registered successfully'
+        });
     } catch (error) {
         handleRegistrationError(error, res);
     }

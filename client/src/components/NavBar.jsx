@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, useMediaQuery, useTheme, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import ThemeToggle from './ThemeToggle';
+
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+}))
 
 const Navbar = () => {
     const { logout, user } = useAuth();
     const [anchorEl, setAnchorEl] = useState(null);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const location = useLocation();
 
     const handleMenu = (event) => {
         if (anchorEl) {
@@ -38,14 +45,14 @@ const Navbar = () => {
     ];
 
     return (
-        <AppBar position="static">
+        <StyledAppBar position="static">
             <Toolbar>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
                         Environmental Monitoring
                     </Link>
                 </Typography>
-                <ThemeToggle />
+                {location.pathname !== '/' && <ThemeToggle />}
                 {isMobile ? (
                     <Box>
                         <IconButton
@@ -107,7 +114,7 @@ const Navbar = () => {
                     </>
                 )}
             </Toolbar>
-        </AppBar>
+        </StyledAppBar>
     );
 };
 

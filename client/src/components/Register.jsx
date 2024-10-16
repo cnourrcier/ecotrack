@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import {
     Container,
     Typography,
@@ -19,6 +20,7 @@ const Register = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const { register } = useAuth();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,10 +28,11 @@ const Register = () => {
         setSuccess('');
         try {
             const response = await register(username, email, password);
-            setSuccess(response.message);
-            setUsername('');
-            setEmail('');
-            setPassword('');
+            // setSuccess(response.message);
+            // setUsername('');
+            // setEmail('');
+            // setPassword('');
+            navigate('/login');
         } catch (err) {
             setError(err.response?.data?.error || 'Registration failed');
         }

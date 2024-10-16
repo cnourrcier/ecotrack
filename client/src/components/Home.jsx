@@ -116,6 +116,7 @@ const MotionContainer = ({ children }) => {
 const Home = () => {
     const { user } = useAuth();
     const [backgroundLoaded, setBackgroundLoaded] = useState(false);
+    const [greeting, setGreeting] = useState('');
 
     useEffect(() => {
         const img = new Image();
@@ -123,6 +124,13 @@ const Home = () => {
         img.onload = () => {
             setBackgroundLoaded(true);
         };
+
+        const currentHour = new Date().getHours();
+        let greetingMessage = (currentHour >= 3 && currentHour < 12) ? 'Good Morning' :
+            (currentHour > 12 && currentHour < 17) ? 'Good afternoon' :
+                'Good Evening';
+
+        setGreeting(greetingMessage);
     }, []);
 
     if (!backgroundLoaded) {
@@ -157,7 +165,7 @@ const Home = () => {
                                 {user ? (
                                     <Stack spacing={2} alignItems="center" sx={{ mt: 2 }}>
                                         <Typography variant="h6">
-                                            Welcome back, {user.username}!
+                                            {greeting} {user.username}!
                                         </Typography>
                                         <Button
                                             component={RouterLink}
