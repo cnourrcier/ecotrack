@@ -1,0 +1,45 @@
+# Stage 1: Build the React app
+FROM node:20 AS client-build
+
+# Set the working directory for the client
+WORKDIR /usr/src/client
+
+# Copy client package files
+COPY client/package*.json ./
+
+# Install client dependencies
+RUN npm install
+
+# Copy the client source code
+COPY client/ .
+
+# Build the React app
+RUN npm run build
+
+# Stage 2: Build the Node.js server
+FROM node:20 AS server-build
+
+# Set the working directory for the server
+WORKDIR /usr/src/server
+
+# Copy server package files
+COPY server/package*.json ./
+
+# Install server dependencies
+RUN npm install --only=production
+
+# Copy the server source code
+COPY server/ .
+
+# Copy the built client files from the client-build stage
+COPY --from=client-build /usr/src/client/dist ./dist
+
+# Expose port 5000
+EXPOSE 5000
+
+# Set environment variables for the server
+ENV NODE_ENV=production
+ENV PORT=5000
+
+# Start the server
+CMD ["node", "src/app.js"]

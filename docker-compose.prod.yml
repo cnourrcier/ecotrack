@@ -1,0 +1,30 @@
+services:
+
+  nginx:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.prod
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
+      - PROD_EMAIL_USER=${PROD_EMAIL_USER}
+      - PROD_EMAIL_PASSWORD=${PROD_EMAIL_PASSWORD}
+      - PROD_EMAIL_HOST=${PROD_EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_FROM=${EMAIL_FROM}
+
+volumes:
+  mongodb_data:
