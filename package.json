@@ -15,7 +15,8 @@
     "lint:server": "cd server && eslint .",
     "prettier:client": "prettier --write 'client/**/*.{js,jsx,json,css}'",
     "prettier:server": "prettier --write 'server/**/*.{js,json}'",
-    "prettier:all": "prettier --write 'client/**/*.{js,jsx,json,css}' 'server/**/*.{js,json}'"
+    "prettier:all": "prettier --write 'client/**/*.{js,jsx,json,css}' 'server/**/*.{js,json}'",
+    "build": "npm run build --prefix client"
   },
   "keywords": [],
   "author": "Charlie Nourrcier",

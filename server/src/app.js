@@ -28,8 +28,7 @@ const limiter = rateLimit({
     legacyHeaders: false,
 });
 
-// app.use(limiter); // Apply rate limiting to all requests
-
+app.use(limiter); // Apply rate limiting to all requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -38,6 +37,14 @@ app.use(cors(corsOptions));
 app.use('/api', authRoutes);
 
 setupWebSocket(server);
+
+// Serve static files in production
+app.use(express.static(path.join(__dirname, '../../client/dist')));
+
+// Catchall handler in production
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+});
 
 if (process.env.NODE_ENV !== 'test') {
     // Connect to MongoDB

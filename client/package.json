@@ -28,7 +28,8 @@
     "react-slick": "^0.30.2",
     "recharts": "^2.12.7",
     "slick-carousel": "^1.8.1",
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "terser-webpack-plugin": "^5.3.10"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -42,6 +43,7 @@
     "html-webpack-plugin": "^5.6.0",
     "style-loader": "^4.0.0",
     "webpack": "^5.94.0",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0"
   }
