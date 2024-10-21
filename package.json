@@ -16,7 +16,9 @@
     "prettier:client": "prettier --write 'client/**/*.{js,jsx,json,css}'",
     "prettier:server": "prettier --write 'server/**/*.{js,json}'",
     "prettier:all": "prettier --write 'client/**/*.{js,jsx,json,css}' 'server/**/*.{js,json}'",
-    "build": "npm run build --prefix client"
+    "build:client": "npm run build --prefix client",
+    "move:client": "mv ./client/dist ./server/dist",
+    "build": "npm run build:client && npm run move:client"
   },
   "keywords": [],
   "author": "Charlie Nourrcier",
