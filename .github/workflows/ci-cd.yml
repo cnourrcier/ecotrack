@@ -1,19 +1,18 @@
 name: EcoTrack CI
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  - push
+  - pull_request
 
 jobs:
   ci:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
     
-    - name: Use Node.js
+    - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
@@ -21,12 +20,17 @@ jobs:
     - name: Install dependencies
       run: npm run install:all
 
-    - name: Run Prettier
-      run: npm run prettier:all
-
     - name: Run ESLint
       run: npm run lint:all
     
     - name: Run server tests
       run: npm run test:server
-        
+    
+    - name: Commit linted code
+      if: ${{ steps.eslint.outcome == 'success' }}
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m "chore: auto-fix lint and format issues"
+        git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:main
