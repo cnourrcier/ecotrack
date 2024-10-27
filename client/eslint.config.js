@@ -15,10 +15,8 @@ module.exports = [
         },
         plugins: {
             react: require('eslint-plugin-react'),
-            prettier: require('eslint-plugin-prettier'),
         },
         rules: {
-            'prettier/prettier': 'error',
             'react/prop-types': 'off',
         },
         settings: {
