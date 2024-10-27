@@ -11,8 +11,7 @@ jest.mock('jsonwebtoken');
 let mongoServer;
 
 beforeAll(async () => {
-    mongoServer = await MongoMemoryServer.create({
-    });
+    mongoServer = await MongoMemoryServer.create({});
     const uri = mongoServer.getUri();
     await mongoose.connect(uri);
 }, 30000);

@@ -8,7 +8,7 @@ const ThemeToggle = () => {
     const { darkMode, toggleDarkMode } = useTheme();
 
     return (
-        <IconButton onClick={toggleDarkMode} color="inherit">
+        <IconButton onClick={toggleDarkMode} color='inherit'>
             {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
     );

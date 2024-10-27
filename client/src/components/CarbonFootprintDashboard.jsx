@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Container, Typography, Box, Paper, Stack, TextField, Button, Slider, CircularProgress } from '@mui/material';
+import {
+    Container,
+    Typography,
+    Box,
+    Paper,
+    Stack,
+    TextField,
+    Button,
+    Slider,
+    CircularProgress,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import HomeIcon from '@mui/icons-material/Home';
@@ -24,31 +34,50 @@ const CarbonFootprintDashboard = () => {
         const dietEmissions = [1000, 1500, 2000][diet]; // kg CO2 per year
         const flightEmissions = flights * 200; // kg CO2 per flight
 
-        return transportationEmissions + homeEnergyEmissions + dietEmissions + flightEmissions;
+        return (
+            transportationEmissions +
+            homeEnergyEmissions +
+            dietEmissions +
+            flightEmissions
+        );
     };
 
     const totalFootprint = calculateFootprint();
 
     return (
-        <Container maxWidth="lg" sx={{ marginTop: 8, marginBottom: 8, }}>
-            <Typography variant="h2" gutterBottom>Carbon Footprint Dashboard</Typography>
+        <Container maxWidth='lg' sx={{ marginTop: 8, marginBottom: 8 }}>
+            <Typography variant='h2' gutterBottom>
+                Carbon Footprint Dashboard
+            </Typography>
 
             <StyledSection>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
-                    <Typography variant="h4">Your Carbon Footprint</Typography>
-                    <Box position="relative" display="inline-flex">
-                        <CircularProgress variant="determinate" value={Math.min(totalFootprint / 100, 100)} size={80} />
+                <Stack
+                    direction='row'
+                    justifyContent='space-between'
+                    alignItems='center'
+                >
+                    <Typography variant='h4'>Your Carbon Footprint</Typography>
+                    <Box position='relative' display='inline-flex'>
+                        <CircularProgress
+                            variant='determinate'
+                            value={Math.min(totalFootprint / 100, 100)}
+                            size={80}
+                        />
                         <Box
                             top={0}
                             left={0}
                             bottom={0}
                             right={0}
-                            position="absolute"
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="center"
+                            position='absolute'
+                            display='flex'
+                            alignItems='center'
+                            justifyContent='center'
                         >
-                            <Typography variant="caption" component="div" color="text.secondary">
+                            <Typography
+                                variant='caption'
+                                component='div'
+                                color='text.secondary'
+                            >
                                 {`${Math.round(totalFootprint)} kg`}
                             </Typography>
                         </Box>
@@ -57,31 +86,37 @@ const CarbonFootprintDashboard = () => {
             </StyledSection>
 
             <StyledSection>
-                <Typography variant="h5" gutterBottom>Transportation <DirectionsCarIcon /></Typography>
+                <Typography variant='h5' gutterBottom>
+                    Transportation <DirectionsCarIcon />
+                </Typography>
                 <TextField
-                    label="Km driven per week"
-                    type="number"
+                    label='Km driven per week'
+                    type='number'
                     value={transportation}
                     onChange={(e) => setTransportation(Number(e.target.value))}
                     fullWidth
-                    margin="normal"
+                    margin='normal'
                 />
             </StyledSection>
 
             <StyledSection>
-                <Typography variant="h5" gutterBottom>Home Energy <HomeIcon /></Typography>
+                <Typography variant='h5' gutterBottom>
+                    Home Energy <HomeIcon />
+                </Typography>
                 <TextField
-                    label="kWh used per month"
-                    type="number"
+                    label='kWh used per month'
+                    type='number'
                     value={homeEnergy}
                     onChange={(e) => setHomeEnergy(Number(e.target.value))}
                     fullWidth
-                    margin="normal"
+                    margin='normal'
                 />
             </StyledSection>
 
             <StyledSection>
-                <Typography variant="h5" gutterBottom>Diet <RestaurantIcon /></Typography>
+                <Typography variant='h5' gutterBottom>
+                    Diet <RestaurantIcon />
+                </Typography>
                 <Slider
                     value={diet}
                     onChange={(e, newValue) => setDiet(newValue)}
@@ -89,24 +124,28 @@ const CarbonFootprintDashboard = () => {
                     marks
                     min={0}
                     max={2}
-                    valueLabelDisplay="auto"
-                    valueLabelFormat={(value) => ['Vegan', 'Vegetarian', 'Omnivore'][value]}
+                    valueLabelDisplay='auto'
+                    valueLabelFormat={(value) =>
+                        ['Vegan', 'Vegetarian', 'Omnivore'][value]
+                    }
                 />
             </StyledSection>
 
             <StyledSection>
-                <Typography variant="h5" gutterBottom>Air Travel <FlightIcon /></Typography>
+                <Typography variant='h5' gutterBottom>
+                    Air Travel <FlightIcon />
+                </Typography>
                 <TextField
-                    label="Flights per year"
-                    type="number"
+                    label='Flights per year'
+                    type='number'
                     value={flights}
                     onChange={(e) => setFlights(Number(e.target.value))}
                     fullWidth
-                    margin="normal"
+                    margin='normal'
                 />
             </StyledSection>
 
-            <Button variant="contained" color="primary" size="large" fullWidth>
+            <Button variant='contained' color='primary' size='large' fullWidth>
                 Get Personalized Reduction Tips
             </Button>
         </Container>
@@ -114,7 +153,6 @@ const CarbonFootprintDashboard = () => {
 };
 
 export default CarbonFootprintDashboard;
-
 
 // Adjust the styling to fit the specific EcoTrack design language.
 // Implement actual logic for carbon footprint calculation. The current calculation is a simplified version and should be replaced with more accurate models.

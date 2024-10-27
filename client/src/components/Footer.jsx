@@ -22,18 +22,18 @@ const FooterLink = styled(Link)(({ theme }) => ({
 const Footer = () => {
     return (
         <StyledFooter>
-            <Container maxWidth="lg">
+            <Container maxWidth='lg'>
                 <Grid container spacing={4}>
                     <Grid item xs={12} sm={4}>
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant='h6' gutterBottom>
                             EcoTrack
                         </Typography>
-                        <Typography variant="body2">
+                        <Typography variant='body2'>
                             Track your environmental metrics with EcoTrack.
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant='h6' gutterBottom>
                             Quick Links
                         </Typography>
                         <Stack spacing={1}>
@@ -47,30 +47,35 @@ const Footer = () => {
                                 { to: '/press', text: 'Press' },
                                 { to: '/contact', text: 'Contact' },
                             ].map((link) => (
-                                <FooterLink key={link.to} component={RouterLink} to={link.to}>
+                                <FooterLink
+                                    key={link.to}
+                                    component={RouterLink}
+                                    to={link.to}
+                                >
                                     {link.text}
                                 </FooterLink>
                             ))}
                         </Stack>
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant='h6' gutterBottom>
                             Contact Us
                         </Typography>
-                        <Typography variant="body2">
+                        <Typography variant='body2'>
                             123 EcoTrack Blvd, EcoTrack, CA 92262
                         </Typography>
-                        <Typography variant="body2">
+                        <Typography variant='body2'>
                             Phone: (555) 123-4567
                         </Typography>
-                        <Typography variant="body2">
+                        <Typography variant='body2'>
                             Email: info@ecotrack.com
                         </Typography>
                     </Grid>
                 </Grid>
                 <Box mt={5}>
-                    <Typography variant="body2" align="center">
-                        © {new Date().getFullYear()} EcoTrack. All rights reserved.
+                    <Typography variant='body2' align='center'>
+                        © {new Date().getFullYear()} EcoTrack. All rights
+                        reserved.
                     </Typography>
                 </Box>
             </Container>

@@ -16,7 +16,7 @@ const DashboardButton = styled(Button)(({ theme }) => ({
 
 const DashboardNavigation = () => {
     return (
-        <Container maxWidth="md">
+        <Container maxWidth='md'>
             <Box
                 sx={{
                     marginTop: 8,
@@ -27,32 +27,33 @@ const DashboardNavigation = () => {
                 }}
             >
                 <StyledSection>
-                    <Typography variant="h2" gutterBottom align="center">
+                    <Typography variant='h2' gutterBottom align='center'>
                         EcoTrack Dashboards
                     </Typography>
-                    <Typography variant="body1" paragraph align="center">
-                        Select a dashboard to view detailed environmental data and track your personal impact.
+                    <Typography variant='body1' paragraph align='center'>
+                        Select a dashboard to view detailed environmental data
+                        and track your personal impact.
                     </Typography>
                 </StyledSection>
 
                 <Stack spacing={4}>
                     <DashboardButton
-                        variant="contained"
-                        color="primary"
+                        variant='contained'
+                        color='primary'
                         startIcon={<SensorsIcon />}
                         component={RouterLink}
-                        to="/environment-dashboard"
+                        to='/environment-dashboard'
                         fullWidth
                     >
                         Environment Dashboard
                     </DashboardButton>
 
                     <DashboardButton
-                        variant="contained"
-                        color="secondary"
+                        variant='contained'
+                        color='secondary'
                         startIcon={<Co2Icon />}
                         component={RouterLink}
-                        to="/carbon-footprint-dashboard"
+                        to='/carbon-footprint-dashboard'
                         fullWidth
                     >
                         Track Your Carbon Footprint

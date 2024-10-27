@@ -11,7 +11,7 @@ import {
     List,
     ListItem,
     ListItemText,
-    Divider
+    Divider,
 } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import PersonIcon from '@mui/icons-material/Person';
@@ -41,11 +41,11 @@ const Profile = () => {
     }, []);
 
     if (authError) {
-        return <Alert severity="error">{authError}</Alert>;
+        return <Alert severity='error'>{authError}</Alert>;
     }
 
     return (
-        <Container component="main" maxWidth="sm">
+        <Container component='main' maxWidth='sm'>
             <Box
                 sx={{
                     marginTop: 8,
@@ -61,26 +61,38 @@ const Profile = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            mb: 2
+                            mb: 2,
                         }}
                     >
-                        <PersonIcon sx={{ fontSize: 60, color: 'primary.main', mb: 2 }} />
-                        <Typography component="h1" variant="h4" gutterBottom>
+                        <PersonIcon
+                            sx={{ fontSize: 60, color: 'primary.main', mb: 2 }}
+                        />
+                        <Typography component='h1' variant='h4' gutterBottom>
                             User Profile
                         </Typography>
                     </Box>
 
                     {error && (
-                        <Alert severity="error" sx={{ mb: 2 }}>
+                        <Alert severity='error' sx={{ mb: 2 }}>
                             {error}
-                            <Button color="inherit" size="small" onClick={loadProfile}>
+                            <Button
+                                color='inherit'
+                                size='small'
+                                onClick={loadProfile}
+                            >
                                 Retry
                             </Button>
                         </Alert>
                     )}
 
                     {loading ? (
-                        <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                my: 4,
+                            }}
+                        >
                             <CircularProgress />
                         </Box>
                     ) : !profileData ? (
@@ -88,19 +100,31 @@ const Profile = () => {
                     ) : (
                         <List>
                             <ListItem>
-                                <ListItemText primary="Username" secondary={profileData.user.username} />
+                                <ListItemText
+                                    primary='Username'
+                                    secondary={profileData.user.username}
+                                />
                             </ListItem>
-                            <Divider component="li" />
+                            <Divider component='li' />
                             <ListItem>
-                                <ListItemText primary="Email" secondary={profileData.user.email} />
+                                <ListItemText
+                                    primary='Email'
+                                    secondary={profileData.user.email}
+                                />
                             </ListItem>
                             {/* Add more profile information here */}
                         </List>
                     )}
 
-                    <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+                    <Box
+                        sx={{
+                            mt: 3,
+                            display: 'flex',
+                            justifyContent: 'center',
+                        }}
+                    >
                         <Button
-                            variant="contained"
+                            variant='contained'
                             startIcon={<RefreshIcon />}
                             onClick={loadProfile}
                             disabled={loading}

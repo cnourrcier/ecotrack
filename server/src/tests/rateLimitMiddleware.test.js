@@ -11,8 +11,7 @@ jest.mock('jsonwebtoken');
 let mongoServer;
 
 beforeAll(async () => {
-    mongoServer = await MongoMemoryServer.create({
-    });
+    mongoServer = await MongoMemoryServer.create({});
     const uri = mongoServer.getUri();
     await mongoose.connect(uri);
 }, 30000);
@@ -44,7 +43,7 @@ describe('Rate Limit Middleware', () => {
 
             // Log the error if response status is 500
             if (res.statusCode === 500) {
-                console.log(res.body);  // Log the response body in case of server errors
+                console.log(res.body); // Log the response body in case of server errors
             }
 
             if (i < 5) {

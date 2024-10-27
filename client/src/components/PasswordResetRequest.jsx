@@ -7,7 +7,7 @@ import {
     Button,
     Box,
     Paper,
-    Alert
+    Alert,
 } from '@mui/material';
 import LockResetIcon from '@mui/icons-material/LockReset';
 
@@ -31,7 +31,7 @@ const PasswordResetRequest = () => {
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component='main' maxWidth='xs'>
             <Box
                 sx={{
                     marginTop: 8,
@@ -47,33 +47,48 @@ const PasswordResetRequest = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            mb: 2
+                            mb: 2,
                         }}
                     >
-                        <LockResetIcon sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
-                        <Typography component="h1" variant="h5">
+                        <LockResetIcon
+                            sx={{ fontSize: 40, color: 'primary.main', mb: 1 }}
+                        />
+                        <Typography component='h1' variant='h5'>
                             Reset Password
                         </Typography>
                     </Box>
-                    {message && <Alert severity="success" sx={{ mb: 2 }}>{message}</Alert>}
-                    {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    {message && (
+                        <Alert severity='success' sx={{ mb: 2 }}>
+                            {message}
+                        </Alert>
+                    )}
+                    {error && (
+                        <Alert severity='error' sx={{ mb: 2 }}>
+                            {error}
+                        </Alert>
+                    )}
+                    <Box
+                        component='form'
+                        onSubmit={handleSubmit}
+                        noValidate
+                        sx={{ mt: 1 }}
+                    >
                         <TextField
-                            margin="normal"
+                            margin='normal'
                             required
                             fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
+                            id='email'
+                            label='Email Address'
+                            name='email'
+                            autoComplete='email'
                             autoFocus
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
                         <Button
-                            type="submit"
+                            type='submit'
                             fullWidth
-                            variant="contained"
+                            variant='contained'
                             sx={{ mt: 3, mb: 2 }}
                         >
                             Send Reset Link

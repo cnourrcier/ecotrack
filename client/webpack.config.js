@@ -6,7 +6,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = () => {
-    // call dotenv and it will return an Object with a parsed key 
+    // call dotenv and it will return an Object with a parsed key
     const env = dotenv.config().parsed;
 
     // reduce it to a nice object, the same as before
@@ -38,8 +38,8 @@ module.exports = () => {
                     test: /\.(png|jpg|jpeg|gif|svg)$/i,
                     type: 'asset/resource',
                     generator: {
-                        filename: 'images/[name][ext]'
-                    }
+                        filename: 'images/[name][ext]',
+                    },
                 },
             ],
         },
@@ -53,19 +53,21 @@ module.exports = () => {
             new webpack.DefinePlugin(envKeys),
             new BundleAnalyzerPlugin({
                 analyzerMode: 'static', // Generates an HTML file with bundle analysis
-                openAnalyzer: false,    // Prevents the analyzer from automatically opening
-                reportFilename: 'bundle-report.html' // Name of the report file
+                openAnalyzer: false, // Prevents the analyzer from automatically opening
+                reportFilename: 'bundle-report.html', // Name of the report file
             }),
         ],
         optimization: {
             minimize: true,
-            minimizer: [new TerserPlugin({
-                terserOptions: {
-                    compress: {
-                        drop_console: true,
+            minimizer: [
+                new TerserPlugin({
+                    terserOptions: {
+                        compress: {
+                            drop_console: true,
+                        },
                     },
-                },
-            })],
+                }),
+            ],
             splitChunks: {
                 chunks: 'all', // Apply optimization to all chunks (async and initial)
                 minSize: 20000,
@@ -95,7 +97,9 @@ module.exports = () => {
             proxy: [
                 {
                     context: ['/api'],
-                    target: process.env.REACT_APP_API_URL || 'http://localhost:5000',
+                    target:
+                        process.env.REACT_APP_API_URL ||
+                        'http://localhost:5000',
                     changeOrigin: true,
                 },
             ],

@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, useMediaQuery, useTheme, Box } from '@mui/material';
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    Button,
+    IconButton,
+    Menu,
+    MenuItem,
+    useMediaQuery,
+    useTheme,
+    Box,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { styled } from '@mui/material/styles';
 import { Link, useLocation } from 'react-router-dom';
@@ -9,7 +20,7 @@ import ThemeToggle from './ThemeToggle';
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-}))
+}));
 
 const Navbar = () => {
     const { logout, user } = useAuth();
@@ -35,20 +46,25 @@ const Navbar = () => {
         handleClose();
     };
 
-    const menuItems = user ? [
-        { text: 'Dashboard', link: '/dashboard-navigation' },
-        { text: 'Profile', link: '/profile' },
-        { text: 'Logout', onClick: handleLogout }
-    ] : [
-        { text: 'Login', link: '/login' },
-        { text: 'Register', link: '/register' }
-    ];
+    const menuItems = user
+        ? [
+              { text: 'Dashboard', link: '/dashboard-navigation' },
+              { text: 'Profile', link: '/profile' },
+              { text: 'Logout', onClick: handleLogout },
+          ]
+        : [
+              { text: 'Login', link: '/login' },
+              { text: 'Register', link: '/register' },
+          ];
 
     return (
-        <StyledAppBar position="static">
+        <StyledAppBar position='static'>
             <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+                <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+                    <Link
+                        to='/'
+                        style={{ color: 'inherit', textDecoration: 'none' }}
+                    >
                         Environmental Monitoring
                     </Link>
                 </Typography>
@@ -56,18 +72,18 @@ const Navbar = () => {
                 {isMobile ? (
                     <Box>
                         <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
+                            size='large'
+                            edge='start'
+                            color='inherit'
+                            aria-label='menu'
                             onClick={handleMenu}
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
+                            aria-controls='menu-appbar'
+                            aria-haspopup='true'
                         >
                             <MenuIcon />
                         </IconButton>
                         <Menu
-                            id="menu-appbar"
+                            id='menu-appbar'
                             anchorEl={anchorEl}
                             anchorOrigin={{
                                 vertical: 'bottom',
@@ -103,7 +119,7 @@ const Navbar = () => {
                         {menuItems.map((item) => (
                             <Button
                                 key={item.text}
-                                color="inherit"
+                                color='inherit'
                                 component={item.link ? Link : 'button'}
                                 to={item.link}
                                 onClick={item.onClick}

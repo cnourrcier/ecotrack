@@ -9,7 +9,7 @@ import {
     Box,
     Paper,
     Alert,
-    CircularProgress
+    CircularProgress,
 } from '@mui/material';
 import LockResetIcon from '@mui/icons-material/LockReset';
 
@@ -47,7 +47,7 @@ const PasswordResetConfirm = () => {
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component='main' maxWidth='xs'>
             <Box
                 sx={{
                     marginTop: 8,
@@ -63,49 +63,68 @@ const PasswordResetConfirm = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            mb: 2
+                            mb: 2,
                         }}
                     >
-                        <LockResetIcon sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
-                        <Typography component="h1" variant="h5">
+                        <LockResetIcon
+                            sx={{ fontSize: 40, color: 'primary.main', mb: 1 }}
+                        />
+                        <Typography component='h1' variant='h5'>
                             Set New Password
                         </Typography>
                     </Box>
-                    {message && <Alert severity="success" sx={{ mb: 2 }}>{message}</Alert>}
-                    {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    {message && (
+                        <Alert severity='success' sx={{ mb: 2 }}>
+                            {message}
+                        </Alert>
+                    )}
+                    {error && (
+                        <Alert severity='error' sx={{ mb: 2 }}>
+                            {error}
+                        </Alert>
+                    )}
+                    <Box
+                        component='form'
+                        onSubmit={handleSubmit}
+                        noValidate
+                        sx={{ mt: 1 }}
+                    >
                         <TextField
-                            margin="normal"
+                            margin='normal'
                             required
                             fullWidth
-                            name="password"
-                            label="New Password"
-                            type="password"
-                            id="password"
-                            autoComplete="new-password"
+                            name='password'
+                            label='New Password'
+                            type='password'
+                            id='password'
+                            autoComplete='new-password'
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <TextField
-                            margin="normal"
+                            margin='normal'
                             required
                             fullWidth
-                            name="confirmPassword"
-                            label="Confirm New Password"
-                            type="password"
-                            id="confirmPassword"
-                            autoComplete="new-password"
+                            name='confirmPassword'
+                            label='Confirm New Password'
+                            type='password'
+                            id='confirmPassword'
+                            autoComplete='new-password'
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                         <Button
-                            type="submit"
+                            type='submit'
                             fullWidth
-                            variant="contained"
+                            variant='contained'
                             sx={{ mt: 3, mb: 2 }}
                             disabled={loading}
                         >
-                            {loading ? <CircularProgress size={24} /> : 'Reset Password'}
+                            {loading ? (
+                                <CircularProgress size={24} />
+                            ) : (
+                                'Reset Password'
+                            )}
                         </Button>
                     </Box>
                 </Paper>

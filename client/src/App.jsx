@@ -9,8 +9,12 @@ import Home from './components/Home';
 const Login = lazy(() => import('./components/Login'));
 const Register = lazy(() => import('./components/Register'));
 const Profile = lazy(() => import('./components/Profile'));
-const PasswordResetRequest = lazy(() => import('./components/PasswordResetRequest'));
-const PasswordResetConfirm = lazy(() => import('./components/PasswordResetConfirm'));
+const PasswordResetRequest = lazy(
+    () => import('./components/PasswordResetRequest'),
+);
+const PasswordResetConfirm = lazy(
+    () => import('./components/PasswordResetConfirm'),
+);
 const AboutPage = lazy(() => import('./components/AboutPage'));
 const PressPage = lazy(() => import('./components/PressPage'));
 const BlogPage = lazy(() => import('./components/BlogPage'));
@@ -18,9 +22,15 @@ const GalleryPage = lazy(() => import('./components/GalleryPage'));
 const FAQPage = lazy(() => import('./components/FAQPage'));
 const ContactPage = lazy(() => import('./components/ContactPage'));
 const LocationPage = lazy(() => import('./components/LocationPage'));
-const EnvironmentDashboard = lazy(() => import('./components/EnvironmentDashboard'));
-const DashboardNavigation = lazy(() => import('./components/DashboardNavigation'));
-const CarbonFootprintDashboard = lazy(() => import('./components/CarbonFootprintDashboard'));
+const EnvironmentDashboard = lazy(
+    () => import('./components/EnvironmentDashboard'),
+);
+const DashboardNavigation = lazy(
+    () => import('./components/DashboardNavigation'),
+);
+const CarbonFootprintDashboard = lazy(
+    () => import('./components/CarbonFootprintDashboard'),
+);
 
 function App() {
     return (
@@ -43,15 +53,27 @@ function App() {
                             <Route path='/gallery' element={<GalleryPage />} />
                             <Route path='/faq' element={<FAQPage />} />
                             <Route path='/contact' element={<ContactPage />} />
-                            <Route path='/location' element={<LocationPage />} />
+                            <Route
+                                path='/location'
+                                element={<LocationPage />}
+                            />
                             <Route
                                 path='/reset-password/:token'
                                 element={<PasswordResetConfirm />}
                             />
                             <Route element={<ProtectedRoute />}>
-                                <Route path='/environment-dashboard' element={<EnvironmentDashboard />} />
-                                <Route path='/dashboard-navigation' element={<DashboardNavigation />} />
-                                <Route path='/carbon-footprint-dashboard' element={<CarbonFootprintDashboard />} />
+                                <Route
+                                    path='/environment-dashboard'
+                                    element={<EnvironmentDashboard />}
+                                />
+                                <Route
+                                    path='/dashboard-navigation'
+                                    element={<DashboardNavigation />}
+                                />
+                                <Route
+                                    path='/carbon-footprint-dashboard'
+                                    element={<CarbonFootprintDashboard />}
+                                />
                                 <Route path='/profile' element={<Profile />} />
                             </Route>
                         </Routes>

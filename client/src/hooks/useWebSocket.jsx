@@ -47,10 +47,14 @@ export const useWebSocket = () => {
     const reconnect = useCallback(() => {
         if (reconnectAttempts.current < 5) {
             reconnectAttempts.current += 1;
-            console.log(`Attempting to reconnect... (Attempt ${reconnectAttempts.current})`);
+            console.log(
+                `Attempting to reconnect... (Attempt ${reconnectAttempts.current})`,
+            );
             setTimeout(connectSocket, 5000 * reconnectAttempts.current);
         } else {
-            setError('Max reconnection attempts reached. Please refresh the page.')
+            setError(
+                'Max reconnection attempts reached. Please refresh the page.',
+            );
         }
     }, [connectSocket]);
 
@@ -65,11 +69,14 @@ export const useWebSocket = () => {
         }
     }, [isConnected, error, reconnect]);
 
-    const sendMessage = useCallback((message) => {
-        if (socket) {
-            socket.emit('message', message);
-        }
-    }, [socket]);
+    const sendMessage = useCallback(
+        (message) => {
+            if (socket) {
+                socket.emit('message', message);
+            }
+        },
+        [socket],
+    );
 
     return { lastMessage, sendMessage, isConnected, error };
 };

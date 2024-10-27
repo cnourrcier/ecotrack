@@ -5,8 +5,8 @@ function setupWebSocket(server) {
     const io = socketIo(server, {
         cors: {
             origin: process.env.CORS_ORIGIN,
-            methods: ["GET", "POST"]
-        }
+            methods: ['GET', 'POST'],
+        },
     });
 
     io.on('connection', (socket) => {

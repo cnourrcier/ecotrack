@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Box, TextField, Button, Stack, Paper, Snackbar, Alert } from '@mui/material';
+import {
+    Container,
+    Typography,
+    Box,
+    TextField,
+    Button,
+    Stack,
+    Paper,
+    Snackbar,
+    Alert,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -11,17 +21,18 @@ const StyledSection = styled(Box)(({ theme }) => ({
 }));
 
 const ContactInfoItem = ({ icon, primary, secondary }) => (
-    <Stack direction="row" spacing={2} alignItems="center">
+    <Stack direction='row' spacing={2} alignItems='center'>
         {icon}
         <Box>
-            <Typography variant="body1">{primary}</Typography>
-            <Typography variant="body2" color="text.secondary">{secondary}</Typography>
+            <Typography variant='body1'>{primary}</Typography>
+            <Typography variant='body2' color='text.secondary'>
+                {secondary}
+            </Typography>
         </Box>
     </Stack>
 );
 
 const ContactPage = () => {
-
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -40,7 +51,7 @@ const ContactPage = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevData => ({
+        setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
@@ -67,11 +78,14 @@ const ContactPage = () => {
     };
 
     return (
-        <Container maxWidth="lg" sx={{ marginTop: 8, marginBottom: 8, }}>
+        <Container maxWidth='lg' sx={{ marginTop: 8, marginBottom: 8 }}>
             <StyledSection>
-                <Typography variant="h2" gutterBottom>Contact Us</Typography>
-                <Typography variant="body1" paragraph>
-                    Have questions or feedback? We'd love to hear from you. Use the form below to get in touch with our team.
+                <Typography variant='h2' gutterBottom>
+                    Contact Us
+                </Typography>
+                <Typography variant='body1' paragraph>
+                    Have questions or feedback? We'd love to hear from you. Use
+                    the form below to get in touch with our team.
                 </Typography>
             </StyledSection>
 
@@ -82,33 +96,33 @@ const ContactPage = () => {
                             <Stack spacing={3}>
                                 <TextField
                                     fullWidth
-                                    label="Name"
-                                    name="name"
+                                    label='Name'
+                                    name='name'
                                     value={formData.name}
                                     onChange={handleChange}
                                     required
                                 />
                                 <TextField
                                     fullWidth
-                                    label="Email"
-                                    name="email"
-                                    type="email"
+                                    label='Email'
+                                    name='email'
+                                    type='email'
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
                                 />
                                 <TextField
                                     fullWidth
-                                    label="Subject"
-                                    name="subject"
+                                    label='Subject'
+                                    name='subject'
                                     value={formData.subject}
                                     onChange={handleChange}
                                     required
                                 />
                                 <TextField
                                     fullWidth
-                                    label="Message"
-                                    name="message"
+                                    label='Message'
+                                    name='message'
                                     multiline
                                     rows={4}
                                     value={formData.message}
@@ -116,9 +130,9 @@ const ContactPage = () => {
                                     required
                                 />
                                 <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
+                                    type='submit'
+                                    variant='contained'
+                                    color='primary'
                                     endIcon={<SendIcon />}
                                 >
                                     Send Message
@@ -130,37 +144,59 @@ const ContactPage = () => {
 
                 <Box flex={1}>
                     <Paper elevation={3} sx={{ p: 3 }}>
-                        <Typography variant="h5" gutterBottom>Contact Information</Typography>
+                        <Typography variant='h5' gutterBottom>
+                            Contact Information
+                        </Typography>
                         <Stack spacing={3}>
                             <ContactInfoItem
-                                icon={<LocationOnIcon color="primary" />}
-                                primary="EcoTrack Headquarters"
-                                secondary="123 Green Street, Eco City, EC 12345"
+                                icon={<LocationOnIcon color='primary' />}
+                                primary='EcoTrack Headquarters'
+                                secondary='123 Green Street, Eco City, EC 12345'
                             />
                             <ContactInfoItem
-                                icon={<PhoneIcon color="primary" />}
-                                primary="Phone"
-                                secondary="+1 (555) 123-4567"
+                                icon={<PhoneIcon color='primary' />}
+                                primary='Phone'
+                                secondary='+1 (555) 123-4567'
                             />
                             <ContactInfoItem
-                                icon={<EmailIcon color="primary" />}
-                                primary="Email"
-                                secondary="contact@ecotrack.com"
+                                icon={<EmailIcon color='primary' />}
+                                primary='Email'
+                                secondary='contact@ecotrack.com'
                             />
                         </Stack>
                     </Paper>
 
                     <StyledSection>
                         {/* Placeholder for a map component */}
-                        <Paper elevation={3} sx={{ p: 3, mt: 4, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography variant="body1">Map placeholder</Typography>
+                        <Paper
+                            elevation={3}
+                            sx={{
+                                p: 3,
+                                mt: 4,
+                                height: 200,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <Typography variant='body1'>
+                                Map placeholder
+                            </Typography>
                         </Paper>
                     </StyledSection>
                 </Box>
             </Stack>
 
-            <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={handleSnackbarClose}>
-                <Alert onClose={handleSnackbarClose} severity={snackbar.severity} sx={{ width: '100%' }}>
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+            >
+                <Alert
+                    onClose={handleSnackbarClose}
+                    severity={snackbar.severity}
+                    sx={{ width: '100%' }}
+                >
                     {snackbar.message}
                 </Alert>
             </Snackbar>
@@ -169,7 +205,6 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-
 
 // Connect the form submission to your actual backend API.
 // Implement more comprehensive form validation if needed.

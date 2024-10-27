@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Button, Menu, MenuItem, ListItemText, Switch, Slider, Typography, Box } from '@mui/material';
+import {
+    Button,
+    Menu,
+    MenuItem,
+    ListItemText,
+    Switch,
+    Slider,
+    Typography,
+    Box,
+} from '@mui/material';
 import { Settings } from '@mui/icons-material';
 
 const DashboardSettings = ({ settings, updateSettings }) => {
@@ -26,7 +35,7 @@ const DashboardSettings = ({ settings, updateSettings }) => {
             <Button
                 startIcon={<Settings />}
                 onClick={handleClick}
-                variant="outlined"
+                variant='outlined'
                 sx={{ mb: 2 }}
             >
                 Dashboard Settings
@@ -39,7 +48,7 @@ const DashboardSettings = ({ settings, updateSettings }) => {
                 <MenuItem>
                     <ListItemText>Use Metric Units</ListItemText>
                     <Switch
-                        edge="end"
+                        edge='end'
                         checked={settings.useMetricUnits}
                         onChange={() => handleToggle('useMetricUnits')}
                     />
@@ -47,21 +56,21 @@ const DashboardSettings = ({ settings, updateSettings }) => {
                 <MenuItem>
                     <ListItemText>Show Trends</ListItemText>
                     <Switch
-                        edge="end"
+                        edge='end'
                         checked={settings.showTrends}
                         onChange={() => handleToggle('showTrends')}
                     />
                 </MenuItem>
                 <MenuItem>
                     <Box sx={{ width: 200 }}>
-                        <Typography id="refresh-rate-slider" gutterBottom>
+                        <Typography id='refresh-rate-slider' gutterBottom>
                             Refresh Rate: {settings.refreshRate} seconds
                         </Typography>
                         <Slider
                             value={settings.refreshRate}
                             onChange={handleRefreshRateChange}
-                            aria-labelledby="refresh-rate-slider"
-                            valueLabelDisplay="auto"
+                            aria-labelledby='refresh-rate-slider'
+                            valueLabelDisplay='auto'
                             step={1}
                             marks
                             min={1}
