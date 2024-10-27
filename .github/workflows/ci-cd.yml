@@ -16,9 +16,19 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
+
+    - name: Cache dependencies
+      id: cache-deps
+      uses: actions/cache@v3
+      with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
     
     - name: Install dependencies
-      run: npm run install:all
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: npm run install:all --silent
 
     - name: Run Prettier
       run: npm run prettier:all
